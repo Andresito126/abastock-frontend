@@ -96,6 +96,8 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)                                         // Importante usar KSP
 
+    implementation(libs.accompanist.systemuicontroller)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
