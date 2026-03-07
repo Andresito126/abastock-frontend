@@ -8,6 +8,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
+import com.softgenix.abastock.features.authentication.presentation.screens.SignInScreen
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
             }
 
             AbastockTheme {
-                SignUpScreen()
+                SignInScreen()
             }
         }
     }

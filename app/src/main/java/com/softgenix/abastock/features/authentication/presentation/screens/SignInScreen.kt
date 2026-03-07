@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -42,112 +43,112 @@ fun SignInScreen() {
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    // Header
-
-    Box (
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Surface)
+            .navigationBarsPadding()
     ) {
-
-        Header  (
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(240.dp)
-        ) {
-
+        // HEADER
+        item {
             Box(
                 modifier = Modifier
-                    .size(180.dp)
-                    .offset(x = (-40).dp, y = (-40).dp)
-                    .background(
-                        Color.White.copy(alpha = 0.05f),
-                        CircleShape
-                    )
-            )
-
-            Box(
-                modifier = Modifier
-                    .size(130.dp)
-                    .align(Alignment.TopEnd)
-                    .offset(x = 30.dp, y = 20.dp)
-                    .background(
-                        Color.White.copy(alpha = 0.06f),
-                        CircleShape
-                    )
-            )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 20.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxWidth()
+                    .height(240.dp)
             ) {
-                Spacer(Modifier.height(10.dp))
-
-                Box(
-                    modifier = Modifier
-                        .background(
-                            Color.White.copy(alpha = 0.15f),
-                            RoundedCornerShape(50)
-                        )
-                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                Header(
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text(
-                        text = "ABASTOCK",
-                        color = Color.White,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 20.sp,
-                        letterSpacing = 2.sp
+                    Box(
+                        modifier = Modifier
+                            .size(180.dp)
+                            .offset(x = (-40).dp, y = (-40).dp)
+                            .background(
+                                Color.White.copy(alpha = 0.05f),
+                                CircleShape
+                            )
                     )
-                }
 
-                Spacer(Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .size(130.dp)
+                            .align(Alignment.TopEnd)
+                            .offset(x = 30.dp, y = 20.dp)
+                            .background(
+                                Color.White.copy(alpha = 0.06f),
+                                CircleShape
+                            )
+                    )
 
-                Text(
-                    text = "El control de tu tienda en tu bolsillo",
-                    color = Color.White.copy(alpha = 0.65f),
-                    fontSize = 13.sp
-                )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(bottom = 20.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(Modifier.height(10.dp))
 
-                Spacer(Modifier.height(20.dp))
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    Color.White.copy(alpha = 0.15f),
+                                    RoundedCornerShape(50)
+                                )
+                                .padding(horizontal = 16.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = "ABASTOCK",
+                                color = Color.White,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 20.sp,
+                                letterSpacing = 2.sp
+                            )
+                        }
 
-                Row(
-                    modifier = Modifier
-                        .background(
-                            Color.White.copy(alpha = 0.10f),
-                            RoundedCornerShape(24.dp)
+                        Spacer(Modifier.height(8.dp))
+
+                        Text(
+                            text = "El control de tu tienda en tu bolsillo",
+                            color = Color.White.copy(alpha = 0.65f),
+                            fontSize = 13.sp
                         )
-                        .padding(horizontal = 24.dp, vertical = 5.dp),
-                    horizontalArrangement = Arrangement.spacedBy(15.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    StatItem("100+", "Tiendas", AccentGold)
-                    StatDot()
-                    StatItem("4.9 ★", "Calificación", AccentGold)
-                    StatDot()
-                    StatItem("MX", "LATAM", AccentGold)
+
+                        Spacer(Modifier.height(20.dp))
+
+                        Row(
+                            modifier = Modifier
+                                .background(
+                                    Color.White.copy(alpha = 0.10f),
+                                    RoundedCornerShape(24.dp)
+                                )
+                                .padding(horizontal = 24.dp, vertical = 5.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            StatItem("100+", "Tiendas", AccentGold)
+                            StatDot()
+                            StatItem("4.9 ★", "Calificación", AccentGold)
+                            StatDot()
+                            StatItem("MX", "LATAM", AccentGold)
+                        }
+                    }
                 }
             }
         }
 
-        // { Formulario }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 210.dp)
-                .background(
-                    CardBg
-                )
-        ) {
+        // FORMULARIO
+        item {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .offset(y = -(30).dp)
+                    .background(
+                        Surface,
+                        RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+                    )
                     .padding(horizontal = 15.dp, vertical = 25.dp)
             ) {
-
                 Text(
                     text = "Iniciar sesión",
                     fontSize = 25.sp,
@@ -219,19 +220,9 @@ fun SignInScreen() {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    HorizontalDivider(
-                        modifier = Modifier.weight(1f),
-                        color = DividerClr
-                    )
-                    Text(
-                        text = "  o continúa con  ",
-                        color = TextSec,
-                        fontSize = 12.sp
-                    )
-                    HorizontalDivider(
-                        modifier = Modifier.weight(1f),
-                        color = DividerClr
-                    )
+                    HorizontalDivider(modifier = Modifier.weight(1f), color = DividerClr)
+                    Text(text = "  o continúa con  ", color = TextSec, fontSize = 12.sp)
+                    HorizontalDivider(modifier = Modifier.weight(1f), color = DividerClr)
                 }
 
                 Spacer(Modifier.height(15.dp))
@@ -292,7 +283,3 @@ fun SignInScreen() {
         }
     }
 }
-
-
-
-
