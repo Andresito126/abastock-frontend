@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,7 +45,12 @@ fun Button(
         onClick = onClick,
         modifier = baseModifier,
         shape = shape,
-        colors = colors
+        colors = colors,
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 0.5.dp,
+            pressedElevation = 0.dp,
+            disabledElevation = 0.dp
+        )
     ) {
         if (icon == null) {
             Text(

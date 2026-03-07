@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.Button
 import com.softgenix.abastock.core.shared.components.Header
@@ -42,16 +41,8 @@ fun SignInScreen() {
     var email    by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    val systemUiController = rememberSystemUiController()
 
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = Color.Transparent,
-            darkIcons = false
-        )
-    }
-
-    // { Header }
+    // Header
 
     Box (
         modifier = Modifier
@@ -64,6 +55,7 @@ fun SignInScreen() {
                 .fillMaxWidth()
                 .height(240.dp)
         ) {
+
             Box(
                 modifier = Modifier
                     .size(180.dp)
@@ -73,6 +65,7 @@ fun SignInScreen() {
                         CircleShape
                     )
             )
+
             Box(
                 modifier = Modifier
                     .size(130.dp)
