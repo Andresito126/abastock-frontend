@@ -1,6 +1,5 @@
 package com.softgenix.abastock.features.authentication.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -14,30 +13,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun StatItem(
-    value: String,
-    label: String
-) {
+fun StatItem(value: String, label: String, valueColor: Color = Color.White) {
     Column(
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Text(
-            text = value,
-            color = Color(0xFFF5A623),
-            fontWeight = FontWeight.Bold,
-            fontSize = 15.sp,
-            lineHeight = 1.sp
-        )
-
+        Text(value, color = valueColor, fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, lineHeight = 1.sp)
         Spacer(modifier = Modifier.height(5.dp))
-
-        Text(
-            text = label,
-            color = Color(0xFFFFFFFF).copy(alpha = 0.6f),
-            fontSize = 12.sp,
-            lineHeight = 1.sp
-        )
+        Text(label, color = Color.White.copy(alpha = 0.55f), fontSize = 10.sp, lineHeight = 1.sp)
     }
 }
