@@ -5,21 +5,24 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import com.softgenix.abastock.core.ui.theme.NavyDark
+import com.softgenix.abastock.core.ui.theme.NavyLight
+import com.softgenix.abastock.core.ui.theme.NavyMid
 
 @Composable
 fun Header (
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
+
     Box(
         modifier = modifier
             .background(
                 Brush.linearGradient(
                     listOf(
-                        Color(0xFF0F1C2E),
-                        Color(0xFF1E3A5F),
-                        Color(0xFF2A5298)
+                        NavyDark,
+                        NavyMid,
+                        NavyLight
                     )
                 )
             )

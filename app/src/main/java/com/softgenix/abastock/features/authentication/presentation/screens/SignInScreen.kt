@@ -2,44 +2,46 @@ package com.softgenix.abastock.features.authentication.presentation.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.Button
-import com.softgenix.abastock.core.shared.components.FormInput
 import com.softgenix.abastock.core.shared.components.Header
+import com.softgenix.abastock.core.shared.components.InputLabel
+import com.softgenix.abastock.core.shared.components.StyledInput
+import com.softgenix.abastock.core.ui.theme.AccentGold
+import com.softgenix.abastock.core.ui.theme.CardBg
+import com.softgenix.abastock.core.ui.theme.DividerClr
+import com.softgenix.abastock.core.ui.theme.NavyMid
+import com.softgenix.abastock.core.ui.theme.Surface
+import com.softgenix.abastock.core.ui.theme.TextPrim
+import com.softgenix.abastock.core.ui.theme.TextSec
+import com.softgenix.abastock.features.authentication.presentation.components.StatDot
 import com.softgenix.abastock.features.authentication.presentation.components.StatItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignInScreen () {
+fun SignInScreen() {
 
+    var email    by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
     val systemUiController = rememberSystemUiController()
 
     SideEffect {
@@ -49,191 +51,255 @@ fun SignInScreen () {
         )
     }
 
-    Scaffold { innerPadding ->
-        Column(
+    // { Header }
+
+    Box (
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Surface)
+    ) {
+
+        Header  (
             modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFF7F8FA))
-
+                .fillMaxWidth()
+                .height(240.dp)
         ) {
-            Header (
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(230.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    Text(
-                        text = "ABASTOCK",
-                        modifier = Modifier.padding(top = 30.dp),
-                        color = Color(0xFFFFFFFF),
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 25.sp,
-                        lineHeight = 1.sp
+                    .size(180.dp)
+                    .offset(x = (-40).dp, y = (-40).dp)
+                    .background(
+                        Color.White.copy(alpha = 0.05f),
+                        CircleShape
                     )
-
-                    Text(
-                        text = "El control de tu tienda en tu bolsillo",
-                        color = Color.White.copy(alpha = 0.7f),
-                        fontSize = 15.sp
+            )
+            Box(
+                modifier = Modifier
+                    .size(130.dp)
+                    .align(Alignment.TopEnd)
+                    .offset(x = 30.dp, y = 20.dp)
+                    .background(
+                        Color.White.copy(alpha = 0.06f),
+                        CircleShape
                     )
-
-                    Box(
-                        modifier = Modifier
-                            .padding(top = 25.dp)
-                            .background(
-                                Color(0xFFFFFFFF).copy(alpha = 0.12f),
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                            .width(320.dp)
-                    ) {
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-
-                            StatItem("100+", "Tiendas")
-                            Text("•", color = Color.White.copy(alpha = 0.2f))
-
-                            StatItem("4.9 ★", "calificación")
-                            Text("•", color = Color.White.copy(alpha = 0.2f))
-
-                            StatItem("MX", "LATAM")
-                        }
-                    }
-                }
-            }
+            )
 
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 15.dp,
-                        top = 25.dp,
-                        end = 15.dp,
-                        bottom = 0.dp
-                    )
+                    .fillMaxSize()
+                    .padding(bottom = 20.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(Modifier.height(10.dp))
+
+                Box(
+                    modifier = Modifier
+                        .background(
+                            Color.White.copy(alpha = 0.15f),
+                            RoundedCornerShape(50)
+                        )
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                ) {
+                    Text(
+                        text = "ABASTOCK",
+                        color = Color.White,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 20.sp,
+                        letterSpacing = 2.sp
+                    )
+                }
+
+                Spacer(Modifier.height(8.dp))
+
+                Text(
+                    text = "El control de tu tienda en tu bolsillo",
+                    color = Color.White.copy(alpha = 0.65f),
+                    fontSize = 13.sp
+                )
+
+                Spacer(Modifier.height(20.dp))
+
+                Row(
+                    modifier = Modifier
+                        .background(
+                            Color.White.copy(alpha = 0.10f),
+                            RoundedCornerShape(24.dp)
+                        )
+                        .padding(horizontal = 24.dp, vertical = 5.dp),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    StatItem("100+", "Tiendas", AccentGold)
+                    StatDot()
+                    StatItem("4.9 ★", "Calificación", AccentGold)
+                    StatDot()
+                    StatItem("MX", "LATAM", AccentGold)
+                }
+            }
+        }
+
+        // { Formulario }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 210.dp)
+                .background(
+                    CardBg
+                )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp, vertical = 25.dp)
+            ) {
+
                 Text(
                     text = "Iniciar sesión",
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = TextPrim
                 )
-
                 Text(
                     text = "Bienvenido de vuelta, tendero",
-                    color = Color(0xFF9FA3A9),
-                    fontSize = 15.sp
+                    color = TextSec,
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(top = 2.dp)
                 )
 
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(Modifier.height(15.dp))
 
-                FormInput(
-                    label = "Teléfono o correo",
-                    icon = R.drawable.call_icon
+                InputLabel("Teléfono o correo")
+                Spacer(Modifier.height(3.dp))
+                StyledInput(
+                    value = email,
+                    onValueChange = { email = it },
+                    placeholder = "55 1234 5678",
+                    leadingIconRes = R.drawable.call_icon
                 )
 
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(Modifier.height(15.dp))
 
-                FormInput(
-                    label = "Contraseña",
-                    icon = R.drawable.icon_password,
-                    isPasswordField = true
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    InputLabel("Contraseña")
+                    Text(
+                        text = "¿Olvidaste tu contraseña?",
+                        color = NavyMid,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+
+                Spacer(Modifier.height(3.dp))
+
+                StyledInput(
+                    value = password,
+                    onValueChange = { password = it },
+                    placeholder = "Mínimo 8 caracteres",
+                    leadingIconRes = R.drawable.icon_password,
+                    isPassword = true,
+                    passwordVisible = passwordVisible,
+                    onTogglePassword = { passwordVisible = !passwordVisible }
                 )
 
-                Spacer(modifier = Modifier.height(25.dp))
+                Spacer(Modifier.height(22.dp))
 
                 Button(
                     nameAction = "Iniciar sesión",
                     colors = ButtonColors(
-                        containerColor = Color(0xFF1E3A5F),
+                        containerColor = NavyMid,
                         contentColor = Color.White,
-                        disabledContainerColor = Color.White,
-                        disabledContentColor = Color.White
+                        disabledContainerColor = NavyMid.copy(alpha = 0.5f),
+                        disabledContentColor = Color.White.copy(alpha = 0.5f)
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-//                        .background(Brush.linearGradient(
-//                            listOf(
-//                                Color(0xFF1E3A5F),
-//                                Color(0xFF2A5298)
-//                            )
-//                        ))
-
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(modifier = Modifier.height(25.dp))
+                Spacer(Modifier.height(15.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     HorizontalDivider(
-                        color = Color(0xFFE5E7EB),
-                        thickness = 1.dp,
-                        modifier = Modifier.weight(0.3f)
+                        modifier = Modifier.weight(1f),
+                        color = DividerClr
                     )
-
                     Text(
-                        text = "o continúa con",
-                        modifier = Modifier.padding(horizontal = 10.dp),
-                        fontSize = 12.sp,
-                        color = Color(0xFF9CA3AF)
+                        text = "  o continúa con  ",
+                        color = TextSec,
+                        fontSize = 12.sp
                     )
-
                     HorizontalDivider(
-                        color = Color(0xFFE5E7EB),
-                        thickness = 1.dp,
-                        modifier = Modifier.weight(0.3f)
+                        modifier = Modifier.weight(1f),
+                        color = DividerClr
                     )
                 }
 
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(Modifier.height(15.dp))
 
                 Button(
                     nameAction = "Google",
                     icon = R.drawable.google_icon,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFFFFFFF),
-                        contentColor = Color.Black,
-                        disabledContainerColor = Color(0xFFFFFFFF),
-                        disabledContentColor = Color.Transparent
+                    outlined = true,
+                    colors = ButtonColors(
+                        containerColor = CardBg,
+                        contentColor = TextPrim,
+                        disabledContainerColor = CardBg,
+                        disabledContentColor = TextSec
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(Modifier.height(15.dp))
 
                 Button(
                     nameAction = "Apple",
                     icon = R.drawable.apple_icon,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Black,
+                    colors = ButtonColors(
+                        containerColor = Color(0xFF0A0A0A),
                         contentColor = Color.White,
-                        disabledContainerColor = Color.Black,
-                        disabledContentColor = Color.Transparent
+                        disabledContainerColor = Color(0xFF0A0A0A),
+                        disabledContentColor = Color.White.copy(alpha = 0.5f)
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-            }
+                Spacer(Modifier.height(20.dp))
 
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(SpanStyle(color = TextSec, fontSize = 12.sp)) {
+                            append("¿Aún no tienes cuenta?  ")
+                        }
+                        withStyle(
+                            SpanStyle(
+                                color = NavyMid,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) {
+                            append("Regístrate gratis")
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { },
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
+
+
+
+
