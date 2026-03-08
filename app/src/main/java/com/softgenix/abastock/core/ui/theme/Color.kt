@@ -24,6 +24,8 @@ val CardBg     = Color(0xFFFFFFFF)
 val InputBg    = Color(0xFFF0F2F7)
 val IconBg     = Color(0xFFF9FAFB)
 
+val BackGroundGray = Color(0xFFE5E7EB)
+
 // Textos
 val TextPrim   = Color(0xFF303641)
 val TextSec    = Color(0xFF8E97A8)

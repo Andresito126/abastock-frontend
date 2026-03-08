@@ -24,7 +24,8 @@ private val LightColorScheme = lightColorScheme(
     background = GrayLight,       // fondo aun no se si asi o blanco como figma
     surface = WhitePure,          // fondo de las Cards
     onSurface = BlueStrong,       // texto para cards y aja
-    error = ErrorRed
+    error = ErrorRed,
+    onBackground = BackGroundGray
 )
 
 @Composable
