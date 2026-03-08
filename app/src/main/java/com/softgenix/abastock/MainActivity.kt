@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.authentication.presentation.screens.SignInScreen
+import com.softgenix.abastock.features.inventory.presentation.screens.InventoryScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.ScannerScreen
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AbastockTheme {
-                ScannerScreen {  }
+                InventoryScreen()
             }
         }
     }
