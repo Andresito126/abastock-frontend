@@ -11,8 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.softgenix.abastock.core.navigation.NavigationWrapper
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.authentication.presentation.screens.SignInScreen
+import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.inventory.presentation.screens.InventoryScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.ScannerScreen
 
@@ -20,10 +22,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val navGraphs = listOf(
+            InventoryNavGraph()
+        )
+
         setContent {
             AbastockTheme {
-                InventoryScreen()
+                NavigationWrapper(
+                    navGraphs = navGraphs
+                )}
             }
         }
     }
-}

@@ -28,12 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.softgenix.abastock.core.navigation.CreateProduct
 import com.softgenix.abastock.core.shared.components.FilterCategory
 import com.softgenix.abastock.features.inventory.presentation.components.InventoryListItem
 
 @Composable
 fun InventoryScreen(
-
+    navController: NavHostController,
 ) {
     Scaffold(
 
@@ -51,7 +53,7 @@ fun InventoryScreen(
                 }
 
                 ExtendedFloatingActionButton(
-                    onClick = {},
+                    onClick = {navController.navigate(CreateProduct)},
                     containerColor = MaterialTheme.colorScheme.primary,
                     icon = { Icon(Icons.Default.Add, contentDescription = null) },
                     text = { Text("Agregar") },
