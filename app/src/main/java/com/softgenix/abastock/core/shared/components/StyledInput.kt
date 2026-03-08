@@ -51,6 +51,7 @@ fun StyledInput(
     isError: Boolean = false,
     passwordVisible: Boolean = false,
     onTogglePassword: (() -> Unit)? = null,
+    readOnly: Boolean = false,
 ) {
     val visualTransformation = if (isPassword && !passwordVisible)
         PasswordVisualTransformation() else VisualTransformation.None
@@ -90,6 +91,7 @@ fun StyledInput(
         )
 
         BasicTextField(
+            readOnly = readOnly,
             value = value,
             onValueChange = onValueChange,
             singleLine = true,

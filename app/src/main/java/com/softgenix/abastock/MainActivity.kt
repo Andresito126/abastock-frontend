@@ -11,6 +11,8 @@ import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.authentication.presentation.screens.SignInScreen
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
+import com.softgenix.abastock.features.inventory.presentation.screens.InventoryScreen
+import com.softgenix.abastock.features.inventory.presentation.screens.ScannerScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +30,7 @@ class MainActivity : ComponentActivity() {
             }
 
             AbastockTheme {
-                SignUpScreen()
+                InventoryScreen()
             }
         }
     }
