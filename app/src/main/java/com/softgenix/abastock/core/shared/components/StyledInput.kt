@@ -39,6 +39,8 @@ import com.softgenix.abastock.core.ui.theme.IconBg
 import com.softgenix.abastock.core.ui.theme.IconTint
 import com.softgenix.abastock.core.ui.theme.PlaceholderC
 
+private val ErrorColor = Color(0xFFE53935)
+
 @Composable
 fun StyledInput(
     value: String,
@@ -46,6 +48,7 @@ fun StyledInput(
     placeholder: String,
     leadingIconRes: Int,
     isPassword: Boolean = false,
+    isError: Boolean = false,
     passwordVisible: Boolean = false,
     onTogglePassword: (() -> Unit)? = null,
     readOnly: Boolean = false,
@@ -53,19 +56,22 @@ fun StyledInput(
     val visualTransformation = if (isPassword && !passwordVisible)
         PasswordVisualTransformation() else VisualTransformation.None
 
+    val borderColor = if (isError) ErrorColor else BorderColor
+    val iconTint    = if (isError) ErrorColor else IconTint
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(55.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(Color.White)
-            .border(1.dp, BorderColor, RoundedCornerShape(10.dp)),
+            .border(1.dp, borderColor, RoundedCornerShape(10.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         Box(
             modifier = Modifier
-                .background(IconBg)
+                .background(if (isError) ErrorColor.copy(alpha = 0.06f) else IconBg)
                 .fillMaxHeight()
                 .width(50.dp),
             contentAlignment = Alignment.Center
@@ -73,13 +79,13 @@ fun StyledInput(
             Icon(
                 painter = painterResource(id = leadingIconRes),
                 contentDescription = null,
-                tint = IconTint,
+                tint = iconTint,
                 modifier = Modifier.size(20.dp)
             )
         }
 
         VerticalDivider(
-            color = BorderColor,
+            color = borderColor,
             thickness = 1.dp,
             modifier = Modifier.fillMaxHeight()
         )
@@ -110,11 +116,7 @@ fun StyledInput(
                 ) {
                     Box(modifier = Modifier.weight(1f)) {
                         if (value.isEmpty()) {
-                            Text(
-                                text = placeholder,
-                                color = PlaceholderC,
-                                fontSize = 14.sp
-                            )
+                            Text(text = placeholder, color = PlaceholderC, fontSize = 14.sp)
                         }
                         innerTextField()
                     }
