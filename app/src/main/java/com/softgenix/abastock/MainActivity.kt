@@ -10,6 +10,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.authentication.presentation.screens.SignInScreen
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
+import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
             }
 
             AbastockTheme {
-                SignInScreen()
+                SignUpScreen()
             }
         }
     }
