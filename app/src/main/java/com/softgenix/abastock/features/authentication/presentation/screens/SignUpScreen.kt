@@ -25,6 +25,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.softgenix.abastock.R
+import com.softgenix.abastock.core.shared.components.BackButton
 import com.softgenix.abastock.core.shared.components.Button
 import com.softgenix.abastock.core.shared.components.Header
 import com.softgenix.abastock.core.shared.components.InputLabel
@@ -90,30 +91,7 @@ fun SignUpScreen() {
                             .padding(horizontal = 18.dp, vertical = 50.dp)
                     ) {
 
-                        Row(
-                            modifier = Modifier
-                                .clickable(
-                                    interactionSource = remember { MutableInteractionSource() },
-                                    indication = null
-                                ) { },
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-
-                            Icon(
-                                painter = painterResource(R.drawable.back_icon),
-                                contentDescription = null,
-                                tint = IconTint,
-                                modifier = Modifier.size(20.dp)
-                            )
-
-                            Text(
-                                text = "Volver",
-                                modifier = Modifier.padding(start = 7.dp),
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 15.sp
-                            )
-                        }
+                        BackButton(nameAction = "Volver")
 
                         Spacer(Modifier.height(18.dp))
 
