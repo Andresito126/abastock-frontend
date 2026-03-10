@@ -35,12 +35,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.softgenix.abastock.core.navigation.CreateProduct
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
 
 
 @Composable
 fun ScannerScreen(
-    onManualInputClick: () -> Unit
+    navController: NavHostController,
 ) {
 
     val colorScheme = MaterialTheme.colorScheme
@@ -104,7 +106,7 @@ fun ScannerScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = { },
+                onClick = {navController.navigate(CreateProduct)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
@@ -131,7 +133,7 @@ fun ScannerScreen(
                 colors = CardDefaults.cardColors(
                     containerColor = colorScheme.secondary.copy(alpha = 0.12f)
                 ),
-                onClick = onManualInputClick
+                onClick = {navController}
             ) {
                 Row(
                     modifier = Modifier.padding(20.dp),
