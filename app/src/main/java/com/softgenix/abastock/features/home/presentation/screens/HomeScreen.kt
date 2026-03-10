@@ -33,7 +33,13 @@ import com.softgenix.abastock.features.home.presentation.components.SummarySaleC
 import com.softgenix.abastock.features.home.presentation.components.TopProductCard
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    onNavigateToPay: () -> Unit,
+    onNavigateToAddProducts: () -> Unit,
+    onNavigateToInventory: () -> Unit,
+    onNavigateToSales: () -> Unit,
+    navController: NavController
+) {
 
     Scaffold(
 
@@ -41,14 +47,18 @@ fun HomeScreen(navController: NavController) {
             AbastockBottomBar(navController)
         },
         topBar = {
-            Header( modifier = Modifier.fillMaxWidth().height(250.dp)) {
+            Header(modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)) {
                 HeaderBubble(
                     Bubble(130, 30, 20),
                     Bubble(180, -40, -40)
                 )
 
                 Column(
-                    modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -114,42 +124,44 @@ fun HomeScreen(navController: NavController) {
                     QuickActionItem(
                         title = "Cobrar",
                         iconRes = R.drawable.ic_scanner,
-                        containerColor =Color(0xFF1E3A5F),
-                        contentColor = Color(0xFFECFDF5)
-                    ) {
-                        navController.navigate("scanner")
-                    }
+                        containerColor = Color(0xFF1E3A5F),
+                        contentColor = Color(0xFFECFDF5),
+                        onClick = onNavigateToPay
+                    )
 
                     QuickActionItem(
                         title = "Agregar",
                         iconRes = R.drawable.ic_agregar,
                         containerColor = Color(0xFF16A34A),
-                        contentColor = Color(0xFFECFDF5)
-                    ) {
-                        navController.navigate("create_product")
-                    }
+                        contentColor = Color(0xFFECFDF5),
+                        onClick = onNavigateToAddProducts
+                        )
 
                     QuickActionItem(
                         title = "Ventas",
                         iconRes = R.drawable.ic_ventas,
                         containerColor = Color(0xFFD97706),
-                        contentColor = Color(0xFFECFDF5)
-                    ) { }
+                        contentColor = Color(0xFFECFDF5),
+                        onClick= onNavigateToSales
+                    )
 
                     QuickActionItem(
                         title = "Stock",
                         iconRes = R.drawable.ic_inventory,
                         containerColor = Color(0xFF7C3AED),
-                        contentColor = Color(0xFFECFDF5)
-                    ) {
-                        navController.navigate("inventory")
-                    }
+                        contentColor = Color(0xFFECFDF5),
+                        onClick = onNavigateToInventory
+                    )
                 }
                 Spacer(Modifier.height(28.dp))
             }
 
             item {
-                Text("Más vendidos", fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 12.dp))
+                Text(
+                    "Más vendidos",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -160,14 +172,14 @@ fun HomeScreen(navController: NavController) {
                 }
             }
 
-                item {
-                    Text(
-                        text = "Ventas recientes",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(top = 12.dp, bottom = 8.dp)
-                    )
-                }
+            item {
+                Text(
+                    text = "Ventas recientes",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(top = 12.dp, bottom = 8.dp)
+                )
+            }
 
             items(5, key = { index -> "recent_sale_$index" }) { index ->
                 RecentSaleItem(
@@ -176,8 +188,8 @@ fun HomeScreen(navController: NavController) {
                     amount = 15.00
                 )
             }
-            }
         }
-        }
+    }
+}
 
 

@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.softgenix.abastock.core.navigation.CreateProduct
 import com.softgenix.abastock.core.navigation.Scanner
+import com.softgenix.abastock.core.shared.components.AbastockBottomBar
 import com.softgenix.abastock.core.shared.components.FilterCategory
 import com.softgenix.abastock.features.inventory.presentation.components.InventoryListItem
 
@@ -60,7 +61,7 @@ fun InventoryScreen(
                 }
             }
         },
-        bottomBar = {  }
+        bottomBar = { AbastockBottomBar(navController) }
     ) { padding ->
 
         LazyColumn(

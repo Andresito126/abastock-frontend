@@ -2,6 +2,7 @@ package com.softgenix.abastock.core.navigation
 
 import kotlinx.serialization.Serializable
 
+// auth
 @Serializable
 object Login
 
@@ -9,7 +10,7 @@ object Login
 object Register
 
 
-// de inventario
+// inventario
 
 @Serializable
 object Inventory
@@ -18,3 +19,6 @@ object Scanner
 @Serializable
 object CreateProduct
 
+//home
+@Serializable
+object Home

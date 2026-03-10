@@ -7,14 +7,14 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun NavigationWrapper(
     navGraphs : List<FeatureNavGraph>,
-    startDestination: Any = Inventory
+    startDestination: Any = Home
 ){
 
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = Inventory
+        startDestination = startDestination
     ){
         navGraphs.forEach { graph ->
             graph.registerNavGraph(this, navController)

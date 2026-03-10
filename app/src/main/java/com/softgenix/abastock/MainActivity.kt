@@ -21,6 +21,7 @@ import com.softgenix.abastock.features.authentication.presentation.screens.SignI
 import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
+import com.softgenix.abastock.features.home.navigation.HomeNavGraph
 import com.softgenix.abastock.features.home.presentation.screens.HomeScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.AddToCartScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.InventoryScreen
@@ -36,12 +37,12 @@ class MainActivity : ComponentActivity() {
 
 
         val navGraphs = listOf(
-            InventoryNavGraph()
+            InventoryNavGraph(),
+            HomeNavGraph()
         )
 
         setContent {
             val systemUiController = rememberSystemUiController()
-            val navController = rememberNavController()
             SideEffect {
                 systemUiController.setStatusBarColor(
                     color = Color.Transparent,
@@ -49,9 +50,11 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            AbastockTheme {
-                HomeScreen(navController)
+            AbastockTheme() {
+                NavigationWrapper(
+                    navGraphs = navGraphs,
+                )
             }
         }
     }
-    }
+}
