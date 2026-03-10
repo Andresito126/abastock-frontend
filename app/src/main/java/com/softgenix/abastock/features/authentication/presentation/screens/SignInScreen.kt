@@ -23,8 +23,10 @@ import androidx.compose.ui.unit.sp
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.Button
 import com.softgenix.abastock.core.shared.components.Header
+import com.softgenix.abastock.core.shared.components.HeaderBubble
 import com.softgenix.abastock.core.shared.components.InputLabel
 import com.softgenix.abastock.core.shared.components.StyledInput
+import com.softgenix.abastock.core.shared.entities.Bubble
 import com.softgenix.abastock.core.ui.theme.AccentGold
 import com.softgenix.abastock.core.ui.theme.CardBg
 import com.softgenix.abastock.core.ui.theme.DividerClr
@@ -59,25 +61,10 @@ fun SignInScreen() {
                 Header(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(180.dp)
-                            .offset(x = (-40).dp, y = (-40).dp)
-                            .background(
-                                Color.White.copy(alpha = 0.05f),
-                                CircleShape
-                            )
-                    )
 
-                    Box(
-                        modifier = Modifier
-                            .size(130.dp)
-                            .align(Alignment.TopEnd)
-                            .offset(x = 30.dp, y = 20.dp)
-                            .background(
-                                Color.White.copy(alpha = 0.06f),
-                                CircleShape
-                            )
+                    HeaderBubble(
+                        Bubble(130, 30, 20),
+                        Bubble(180, -40, -40)
                     )
 
                     Column(
