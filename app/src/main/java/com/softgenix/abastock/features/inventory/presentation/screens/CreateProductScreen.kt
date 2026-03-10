@@ -135,62 +135,6 @@ fun CreateProductScreen() {
 
         Spacer(Modifier.height(16.dp))
 
-        // precio y stock
-        Surface(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(24.dp),
-            color = Color.White
-        ) {
-            Column(modifier = Modifier.padding(20.dp)) {
-                Text(
-                    text = "Precios y stock (obligatorio)",
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorScheme.primary
-                )
-                Spacer(Modifier.height(16.dp))
-
-                InputLabel("Precio de costo")
-                StyledInput(
-                    value = "10.00",
-                    placeholder = "0.00",
-                    onValueChange = {},
-                    leadingIconRes = R.drawable.money_icon
-                )
-
-                Spacer(Modifier.height(12.dp))
-
-                InputLabel("Precio de venta")
-                StyledInput(
-                    value = "15.00",
-                    placeholder = "0.00",
-                    onValueChange = {},
-                    leadingIconRes = R.drawable.money_icon
-                )
-
-                Spacer(Modifier.height(16.dp))
-
-                InputLabel("Stock Inicial")
-                StyledInput(
-                    value = "10",
-                    placeholder = "Stock",
-                    onValueChange = {},
-                    leadingIconRes = R.drawable.stock_icon
-                )
-
-                Spacer(Modifier.height(12.dp))
-
-                InputLabel("Alerta de stock mínimo")
-                StyledInput(
-                    value = "10",
-                    placeholder = "Stock",
-                    onValueChange = {},
-                    leadingIconRes = R.drawable.stock_alert_icon
-                )
-
-            }
-        }
-
         Button(
             onClick = { },
             modifier = Modifier

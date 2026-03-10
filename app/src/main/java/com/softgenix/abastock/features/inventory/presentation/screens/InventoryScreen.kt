@@ -56,7 +56,7 @@ fun InventoryScreen(
                     onClick = { },
                     containerColor = MaterialTheme.colorScheme.primary
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = "Agregar", tint = Color.White)
+                    Icon(Icons.Default.Add, contentDescription = "Comprar", tint = Color.White)
                 }
             }
         },
