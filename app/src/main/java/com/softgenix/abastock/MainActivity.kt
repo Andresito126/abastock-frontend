@@ -14,12 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.softgenix.abastock.core.navigation.NavigationWrapper
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.authentication.presentation.screens.SignInScreen
 import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
+import com.softgenix.abastock.features.home.presentation.screens.HomeScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.InventoryScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.ScannerScreen
 
@@ -35,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val systemUiController = rememberSystemUiController()
-
+            val navController = rememberNavController()
             SideEffect {
                 systemUiController.setStatusBarColor(
                     color = Color.Transparent,
@@ -44,9 +46,8 @@ class MainActivity : ComponentActivity() {
             }
 
             AbastockTheme {
-                NavigationWrapper(
-                    navGraphs = navGraphs
-                )}
+                HomeScreen(navController)
             }
         }
+    }
     }
