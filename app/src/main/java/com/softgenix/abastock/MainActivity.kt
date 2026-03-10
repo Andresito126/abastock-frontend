@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
             }
 
             AbastockTheme {
-                PurchaseSummaryScreen(navController)
+                HomeScreen(navController)
             }
         }
     }
