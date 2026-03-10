@@ -1,0 +1,106 @@
+package com.softgenix.abastock.features.inventory.presentation.screens
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.softgenix.abastock.core.navigation.CreateProduct
+import com.softgenix.abastock.core.navigation.Scanner
+import com.softgenix.abastock.core.shared.components.FilterCategory
+import com.softgenix.abastock.features.inventory.presentation.components.InventoryListItem
+
+@Composable
+fun InventoryScreen(
+    navController: NavHostController,
+) {
+    Scaffold(
+        floatingActionButton = {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(start=30.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                FloatingActionButton(
+                    onClick = { },
+                    containerColor = MaterialTheme.colorScheme.secondary
+                ) {
+                    Icon(Icons.Default.Mic, contentDescription = "Voz", tint = Color.White)
+                }
+                FloatingActionButton(
+                    onClick = { },
+                    containerColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = "Comprar", tint = Color.White)
+                }
+            }
+        },
+        bottomBar = {  }
+    ) { padding ->
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .background(MaterialTheme.colorScheme.background),
+            contentPadding = PaddingValues(10.dp)
+        ) {
+
+            item {
+                val categorias = listOf("Todos", "Bebidas", "Botanas", "Lácteos", "Panadería")
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(categorias) { cat ->
+                        FilterCategory(
+                            text = cat,
+                            isSelected = cat == "Todos",
+                            onSelected = {  }
+                        )
+                    }
+                }
+                Spacer(Modifier.height(16.dp))
+            }
+
+
+            items(7) {
+                InventoryListItem(
+                    name = "Coca-Cola 600ml",
+                    brand = "Coca-Cola",
+                    price = 15.00,
+                    stock = 48,
+                    category = "Bebidas",
+
+                )
+            }
+        }
+    }
+}
+
