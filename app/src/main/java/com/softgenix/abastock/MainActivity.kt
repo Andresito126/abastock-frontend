@@ -22,7 +22,11 @@ import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
 import com.softgenix.abastock.features.home.presentation.screens.HomeScreen
+import com.softgenix.abastock.features.inventory.presentation.screens.AddToCartScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.InventoryScreen
+import com.softgenix.abastock.features.inventory.presentation.screens.PurchaseEmptyCartScreen
+import com.softgenix.abastock.features.inventory.presentation.screens.PurchaseScannerScreen
+import com.softgenix.abastock.features.inventory.presentation.screens.PurchaseSummaryScreen
 import com.softgenix.abastock.features.inventory.presentation.screens.ScannerScreen
 
 class MainActivity : ComponentActivity() {
@@ -46,7 +50,7 @@ class MainActivity : ComponentActivity() {
             }
 
             AbastockTheme {
-                HomeScreen(navController)
+                PurchaseSummaryScreen(navController)
             }
         }
     }
