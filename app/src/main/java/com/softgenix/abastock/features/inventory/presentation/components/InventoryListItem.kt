@@ -44,7 +44,7 @@ fun InventoryListItem(
     val statusText = if (isLowStock) "$stock · ¡Agotándose!" else "$stock · En stock"
 
     ProductCard(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

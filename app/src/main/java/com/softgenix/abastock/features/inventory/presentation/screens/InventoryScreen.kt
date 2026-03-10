@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,35 +30,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.softgenix.abastock.core.navigation.CreateProduct
+import com.softgenix.abastock.core.navigation.Scanner
 import com.softgenix.abastock.core.shared.components.FilterCategory
 import com.softgenix.abastock.features.inventory.presentation.components.InventoryListItem
 
 @Composable
 fun InventoryScreen(
-
+    navController: NavHostController,
 ) {
     Scaffold(
-
         floatingActionButton = {
-            Column(
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(start=30.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 FloatingActionButton(
-                    onClick = {},
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    shape = CircleShape
+                    onClick = { },
+                    containerColor = MaterialTheme.colorScheme.secondary
                 ) {
                     Icon(Icons.Default.Mic, contentDescription = "Voz", tint = Color.White)
                 }
-
-                ExtendedFloatingActionButton(
-                    onClick = {},
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    icon = { Icon(Icons.Default.Add, contentDescription = null) },
-                    text = { Text("Agregar") },
-                    shape = RoundedCornerShape(16.dp)
-                )
+                FloatingActionButton(
+                    onClick = { },
+                    containerColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = "Agregar", tint = Color.White)
+                }
             }
         },
         bottomBar = {  }
@@ -67,7 +68,7 @@ fun InventoryScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .background(MaterialTheme.colorScheme.background),
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = PaddingValues(10.dp)
         ) {
 
             item {
