@@ -7,7 +7,4 @@ data class SignInUIState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val isAuthenticated: Boolean = false
-) {
-    val isFormValid: Boolean
-        get() = credential.isNotBlank() && password.isNotBlank()
-}
+)

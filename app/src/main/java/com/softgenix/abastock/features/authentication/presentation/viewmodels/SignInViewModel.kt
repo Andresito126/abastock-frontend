@@ -28,24 +28,63 @@ class SignInViewModel @Inject constructor(
 
     fun onSignIn() {
         val current = _state.value
-        if (!current.isFormValid) return
 
-        val credentials = if (current.credential.contains("@")) {
-            LoginCredentials(email = current.credential, password = current.password)
+        val credential = current.credential.trim()
+
+        val isEmail = credential.contains("@")
+
+        if (isEmail) {
+            if (!isValidGmail(credential)) {
+                _state.update {
+                    it.copy(error = "Solo se permiten correos Gmail")
+                }
+                return
+            }
         } else {
-            LoginCredentials(phoneNumber = current.credential, password = current.password)
+            if (!isValidPhone(credential)) {
+                _state.update {
+                    it.copy(error = "El número debe tener 10 dígitos")
+                }
+                return
+            }
+        }
+
+        val credentials = if (isEmail) {
+            LoginCredentials(email = credential, password = current.password)
+        } else {
+            LoginCredentials(phoneNumber = credential, password = current.password)
         }
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
+
             loginUseCase(credentials)
                 .onSuccess { tokens ->
                     tokenManager.saveTokens(tokens.accessToken, tokens.refreshToken)
-                    _state.update { it.copy(isLoading = false, isAuthenticated = true) }
+
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isAuthenticated = true
+                        )
+                    }
                 }
-                .onFailure { e ->
-                    _state.update { it.copy(isLoading = false, error = e.message) }
+                .onFailure {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            error = "Credenciales inválidas"
+                        )
+                    }
                 }
         }
+    }
+
+    private fun isValidPhone(phone: String): Boolean {
+        return phone.matches(Regex("^\\d{10}$"))
+    }
+
+    private fun isValidGmail(email: String): Boolean {
+        return email.matches(Regex("^[A-Za-z0-9+_.-]+@gmail\\.com$"))
     }
 }

@@ -1,4 +1,3 @@
-// core/data/local/UserSession.kt
 package com.softgenix.abastock.core.data.local
 
 data class UserSession(

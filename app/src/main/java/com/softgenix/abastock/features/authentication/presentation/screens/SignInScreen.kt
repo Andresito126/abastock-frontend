@@ -214,6 +214,17 @@ fun SignInScreen(
                     onClick = viewModel::onSignIn,
                 )
 
+                state.error?.let {
+                    Spacer(Modifier.height(10.dp))
+
+                    Text(
+                        text = it,
+                        color = Color.Red,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
                 Spacer(Modifier.height(15.dp))
 
                 Row(

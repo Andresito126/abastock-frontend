@@ -42,8 +42,7 @@ import com.softgenix.abastock.features.authentication.presentation.viewmodels.Si
 fun SignUpScreen(
     onNavigateToLogin: () -> Unit,
     onSignUpSuccess: () -> Unit,
-    viewModel: SignUpViewModel = hiltViewModel(),
-    navController: NavController,
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -270,6 +269,17 @@ fun SignUpScreen(
                         onClick = viewModel::onSignUp
                     )
 
+                    state.error?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = it,
+                            color = Color(0xFFD32F2F),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
+
                     Spacer(Modifier.height(18.dp))
 
                     Text(
@@ -303,9 +313,5 @@ fun SignUpScreen(
                 }
             }
         }
-    }
-
-    LaunchedEffect(state.isSuccess) {
-        if (state.isSuccess) navController.navigate("signup_success")
     }
 }

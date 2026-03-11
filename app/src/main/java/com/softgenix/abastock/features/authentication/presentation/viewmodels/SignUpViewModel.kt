@@ -69,7 +69,14 @@ class SignUpViewModel @Inject constructor(
                     createStoreUseCase(store)
                         .onSuccess {
                             // Con esto indicamos un registro completo para luego ir a SuccessScreen
-                            _state.update { it.copy(isLoading = false, isSuccess = true) }
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    isSuccess = true,
+                                    email = current.email,
+                                    password = current.password
+                                )
+                            }
                         }
                         .onFailure { e ->
                             _state.update { it.copy(isLoading = false, error = e.message) }
@@ -98,21 +105,48 @@ class SignUpViewModel @Inject constructor(
 
     fun onAutoLogin() {
         val current = _state.value
+
         viewModelScope.launch {
+
             _state.update { it.copy(isLoading = true) }
-            loginUseCase(
-                LoginCredentials(
-                    email = current.email,
-                    password = current.password
-                )
-            )
+
+            val credentials =
+                if (current.email.isNotBlank()) {
+                    LoginCredentials(
+                        email = current.email,
+                        password = current.password
+                    )
+                } else {
+                    LoginCredentials(
+                        phoneNumber = current.phoneNumber,
+                        password = current.password
+                    )
+                }
+
+            loginUseCase(credentials)
                 .onSuccess { tokens ->
                     tokenManager.saveTokens(tokens.accessToken, tokens.refreshToken)
-                    _state.update { it.copy(isLoading = false, isAuthenticated = true) }
+
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isAuthenticated = true
+                        )
+                    }
                 }
                 .onFailure { e ->
-                    _state.update { it.copy(isLoading = false, error = e.message) }
+                    val errorMessage = when {
+                        e.message?.contains("409") == true -> "El correo o teléfono ya está registrado"
+                        e.message?.contains("network") == true -> "Sin conexión a internet"
+                        else -> "Error al crear la cuenta"
+                    }
+                    _state.update { it.copy(isLoading = false, error = errorMessage) }
                 }
         }
     }
+
+    fun onSuccessScreenEntered() {
+        _state.update { it.copy(isLoading = true) }
+    }
+
 }

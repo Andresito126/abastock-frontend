@@ -1,6 +1,7 @@
 package com.softgenix.abastock.features.authentication.data.datasources.remote.api
 
 import com.softgenix.abastock.features.authentication.data.datasources.remote.models.AuthTokensDto
+import com.softgenix.abastock.features.authentication.data.datasources.remote.models.LoginCredentialsDto
 import com.softgenix.abastock.features.authentication.domain.entities.LoginCredentials
 import com.softgenix.abastock.features.authentication.domain.entities.RegisterUser
 import retrofit2.http.Body
@@ -14,7 +15,6 @@ interface AuthApi {
     ): Result<Unit>
 
     @POST("auth/sign-in")
-    suspend fun login(@Body credentials: LoginCredentials): AuthTokensDto
-
+    suspend fun login(@Body credentials: LoginCredentialsDto): AuthTokensDto
 
 }

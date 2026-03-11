@@ -35,24 +35,23 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SignUpSuccessScreen(
-    navController: NavController,
+    onLoginSuccess: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     // Lanzar login automático al entrar a la pantalla
-     LaunchedEffect(Unit) {
-         delay(5000L)
-         viewModel.onAutoLogin()
-     }
+    LaunchedEffect(Unit) {
+        viewModel.onSuccessScreenEntered()
+        delay(5000L)
+        viewModel.onAutoLogin()
+    }
 
     // Justo cuando termine el login, ir a Home
     LaunchedEffect(state.isAuthenticated) {
         if (state.isAuthenticated) {
-            navController.navigate("home") {
-                popUpTo("signup") { inclusive = true }
-            }
+            onLoginSuccess()
         }
     }
 

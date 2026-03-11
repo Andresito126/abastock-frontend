@@ -16,13 +16,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "https://api.example.com/"
+    private const val BASE_URL = "http://192.168.1.33:3000/api/v1/"
 
     // Sin interceptor (solo para auth y refresh)
     @Provides
     @Singleton
-    @AuthRetrofit
-    fun provideAuthRetrofit(): Retrofit {
+    @AbastockRetrofit
+    fun provideAbastockRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -31,7 +31,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRefreshTokenApi(@AuthRetrofit retrofit: Retrofit): RefreshTokenApi {
+    fun provideRefreshTokenApi(@AbastockRetrofit retrofit: Retrofit): RefreshTokenApi {
         return retrofit.create(RefreshTokenApi::class.java)
     }
 

@@ -2,6 +2,7 @@ package com.softgenix.abastock.features.authentication.data.datasources.remote.r
 
 import com.softgenix.abastock.features.authentication.data.datasources.remote.api.AuthApi
 import com.softgenix.abastock.features.authentication.data.datasources.remote.mapper.toDomain
+import com.softgenix.abastock.features.authentication.data.datasources.remote.mapper.toDto
 import com.softgenix.abastock.features.authentication.domain.entities.AuthTokens
 import com.softgenix.abastock.features.authentication.domain.entities.LoginCredentials
 import com.softgenix.abastock.features.authentication.domain.entities.RegisterUser
@@ -12,12 +13,10 @@ class AuthRepositoryImpl @Inject constructor(
     private val api: AuthApi
 ) : AuthRepository {
     override suspend fun registerUser(user: RegisterUser): Result<Unit> {
-        return runCatching {
-            api.registerUser(user)
-        }
+        return api.registerUser(user)
     }
 
     override suspend fun login(credentials: LoginCredentials): AuthTokens {
-        return  api.login(credentials).toDomain()
+        return  api.login(credentials.toDto()).toDomain()
     }
 }
