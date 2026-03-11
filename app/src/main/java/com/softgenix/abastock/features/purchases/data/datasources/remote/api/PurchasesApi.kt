@@ -1,5 +1,8 @@
 package com.softgenix.abastock.features.purchases.data.datasources.remote.api
 
+import com.softgenix.abastock.features.purchases.data.datasources.remote.models.AbastockResponse
+import com.softgenix.abastock.features.purchases.data.datasources.remote.models.ProductDto
+import com.softgenix.abastock.features.purchases.data.datasources.remote.models.PurchaseRequestDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
