@@ -1,4 +1,4 @@
-package com.softgenix.abastock.features.inventory.presentation.screens
+package com.softgenix.abastock.features.purchases.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

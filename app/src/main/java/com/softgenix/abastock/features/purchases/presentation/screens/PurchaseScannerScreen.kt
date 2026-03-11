@@ -1,4 +1,4 @@
-package com.softgenix.abastock.features.inventory.presentation.screens
+package com.softgenix.abastock.features.purchases.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,12 +22,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,15 +33,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.ui.theme.AccentGold
 import com.softgenix.abastock.core.ui.theme.BlueStrong
 import com.softgenix.abastock.core.ui.theme.InputBg
 import com.softgenix.abastock.core.ui.theme.NavyMid
+import com.softgenix.abastock.core.ui.theme.Surface
 import com.softgenix.abastock.core.ui.theme.TextPrim
 import com.softgenix.abastock.core.ui.theme.TextSec
 import com.softgenix.abastock.core.ui.theme.WhitePure
@@ -56,7 +53,7 @@ fun PurchaseScannerScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(com.softgenix.abastock.core.ui.theme.Surface)
+            .background(Surface)
     ) {
         Box(
             modifier = Modifier

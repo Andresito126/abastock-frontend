@@ -1,4 +1,4 @@
-package com.softgenix.abastock.features.inventory.presentation.screens
+package com.softgenix.abastock.features.purchases.presentation.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -39,6 +39,7 @@ import com.softgenix.abastock.core.ui.theme.InputBg
 import com.softgenix.abastock.core.ui.theme.InputBorder
 import com.softgenix.abastock.core.ui.theme.NavyMid
 import com.softgenix.abastock.core.ui.theme.SuccessGreen
+import com.softgenix.abastock.core.ui.theme.Surface
 import com.softgenix.abastock.core.ui.theme.TextPrim
 import com.softgenix.abastock.core.ui.theme.TextSec
 import com.softgenix.abastock.features.inventory.presentation.components.ProductCard
@@ -50,7 +51,7 @@ fun AddToCartScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(com.softgenix.abastock.core.ui.theme.Surface)
+            .background(Surface)
             .verticalScroll(rememberScrollState())
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -59,7 +60,7 @@ fun AddToCartScreen(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            color = Color(0xFFE3F2FD), // Azul clarito informativo
+            color = Color(0xFFE3F2FD),
             border = BorderStroke(1.dp, Color(0xFF90CAF9))
         ) {
             Row(

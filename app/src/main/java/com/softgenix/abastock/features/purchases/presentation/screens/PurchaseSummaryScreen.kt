@@ -1,4 +1,4 @@
-package com.softgenix.abastock.features.inventory.presentation.screens
+package com.softgenix.abastock.features.purchases.presentation.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -14,40 +14,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.softgenix.abastock.core.ui.theme.AccentGold
-import com.softgenix.abastock.core.ui.theme.BlueLight
-import com.softgenix.abastock.core.ui.theme.BlueStrong
 import com.softgenix.abastock.core.ui.theme.ErrorRed
 import com.softgenix.abastock.core.ui.theme.GrayLight
-import com.softgenix.abastock.core.ui.theme.InputBg
-import com.softgenix.abastock.core.ui.theme.InputBorder
 import com.softgenix.abastock.core.ui.theme.NavyMid
 import com.softgenix.abastock.core.ui.theme.SuccessGreen
+import com.softgenix.abastock.core.ui.theme.Surface
 import com.softgenix.abastock.core.ui.theme.TextPrim
 import com.softgenix.abastock.core.ui.theme.TextSec
 import com.softgenix.abastock.features.inventory.presentation.components.ProductCard
@@ -59,7 +49,7 @@ fun PurchaseSummaryScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(com.softgenix.abastock.core.ui.theme.Surface)
+            .background(Surface)
     ) {
         LazyColumn(
             modifier = Modifier.weight(1f),
