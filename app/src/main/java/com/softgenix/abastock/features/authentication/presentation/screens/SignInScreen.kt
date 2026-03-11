@@ -20,6 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.Button
 import com.softgenix.abastock.core.shared.components.Header
@@ -36,14 +39,24 @@ import com.softgenix.abastock.core.ui.theme.TextPrim
 import com.softgenix.abastock.core.ui.theme.TextSec
 import com.softgenix.abastock.features.authentication.presentation.components.StatDot
 import com.softgenix.abastock.features.authentication.presentation.components.StatItem
+import com.softgenix.abastock.features.authentication.presentation.viewmodels.SignInViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    navController: NavController,
+    viewModel: SignInViewModel = hiltViewModel()
+) {
 
-    var email    by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(state.isAuthenticated) {
+        if (state.isAuthenticated) {
+            navController.navigate("home") {
+                popUpTo("signin") { inclusive = true }
+            }
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -154,8 +167,8 @@ fun SignInScreen() {
                 InputLabel("Teléfono o correo")
                 Spacer(Modifier.height(3.dp))
                 StyledInput(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = state.credential,
+                    onValueChange = viewModel::onCredentialChange,
                     placeholder = "55 1234 5678",
                     leadingIconRes = R.drawable.call_icon
                 )
@@ -179,13 +192,13 @@ fun SignInScreen() {
                 Spacer(Modifier.height(3.dp))
 
                 StyledInput(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = state.password,
+                    onValueChange = viewModel::onPasswordChange,
                     placeholder = "Mínimo 8 caracteres",
                     leadingIconRes = R.drawable.icon_password,
                     isPassword = true,
-                    passwordVisible = passwordVisible,
-                    onTogglePassword = { passwordVisible = !passwordVisible }
+                    passwordVisible = state.passwordVisible,
+                    onTogglePassword = viewModel::onTogglePasswordVisible
                 )
 
                 Spacer(Modifier.height(22.dp))
@@ -198,7 +211,8 @@ fun SignInScreen() {
                         disabledContainerColor = NavyMid.copy(alpha = 0.5f),
                         disabledContentColor = Color.White.copy(alpha = 0.5f)
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = viewModel::onSignIn,
                 )
 
                 Spacer(Modifier.height(15.dp))

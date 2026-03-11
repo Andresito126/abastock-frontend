@@ -10,13 +10,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -24,28 +22,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.BackButton
 import com.softgenix.abastock.core.shared.components.Button
 import com.softgenix.abastock.core.shared.components.Header
 import com.softgenix.abastock.core.shared.components.InputLabel
 import com.softgenix.abastock.core.shared.components.StyledInput
-import com.softgenix.abastock.core.ui.theme.IconTint
 import com.softgenix.abastock.core.ui.theme.NavyMid
 import com.softgenix.abastock.core.ui.theme.Surface
 import com.softgenix.abastock.core.ui.theme.TextSec
+import com.softgenix.abastock.features.authentication.presentation.viewmodels.SignUpViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),
+    navController: NavController
+) {
 
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-    var confirmPasswordVisible by remember { mutableStateOf(false) }
-
-    val passwordsMatch = confirmPassword.isEmpty() || password == confirmPassword
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LazyColumn(
         modifier = Modifier
@@ -148,21 +147,33 @@ fun SignUpScreen() {
                 InputLabel("Nombre de tu tienda")
                 Spacer(Modifier.height(4.dp))
                 StyledInput(
-                    value = "",
-                    onValueChange = {},
+                    value = state.storeName,
+                    onValueChange = viewModel::onStoreNameChange,
                     placeholder = "Abarrotito",
                     leadingIconRes = R.drawable.store_icon
                 )
 
                 Spacer(Modifier.height(18.dp))
 
-                // NOMBRE
-                InputLabel("Nombre completo")
+                // NOMBRE (S)
+                InputLabel("Nombre (S)")
                 Spacer(Modifier.height(4.dp))
                 StyledInput(
-                    value = "",
-                    onValueChange = {},
-                    placeholder = "Julian Gutiérrez Alcazar",
+                    value = state.name,
+                    onValueChange = viewModel::onNameChange,
+                    placeholder = "Julian De Jesús",
+                    leadingIconRes = R.drawable.person_icon
+                )
+
+                Spacer(Modifier.height(18.dp))
+
+                // Apellidos
+                InputLabel("Apellidos")
+                Spacer(Modifier.height(4.dp))
+                StyledInput(
+                    value = state.lastName,
+                    onValueChange = viewModel::onLastNameChange,
+                    placeholder = "Gutiérrez Alcazar",
                     leadingIconRes = R.drawable.person_icon
                 )
 
@@ -172,8 +183,8 @@ fun SignUpScreen() {
                 InputLabel("Número de celular")
                 Spacer(Modifier.height(4.dp))
                 StyledInput(
-                    value = "",
-                    onValueChange = {},
+                    value = state.phoneNumber,
+                    onValueChange = viewModel::onPhoneNumber,
                     placeholder = "55 1234 5678",
                     leadingIconRes = R.drawable.call_icon
                 )
@@ -184,8 +195,8 @@ fun SignUpScreen() {
                 InputLabel("Correo electrónico")
                 Spacer(Modifier.height(4.dp))
                 StyledInput(
-                    value = "",
-                    onValueChange = {},
+                    value = state.email,
+                    onValueChange = viewModel::onEmailChange,
                     placeholder = "julian@gmail.com",
                     leadingIconRes = R.drawable.email_icon
                 )
@@ -196,13 +207,13 @@ fun SignUpScreen() {
                 InputLabel("Contraseña")
                 Spacer(Modifier.height(4.dp))
                 StyledInput(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = state.password,
+                    onValueChange = viewModel::onPasswordChange,
                     placeholder = "Mínimo 8 caracteres",
                     leadingIconRes = R.drawable.icon_password,
                     isPassword = true,
-                    passwordVisible = passwordVisible,
-                    onTogglePassword = { passwordVisible = !passwordVisible }
+                    passwordVisible = state.passwordVisible,
+                    onTogglePassword = viewModel::onTogglePasswordVisible
                 )
 
                 Spacer(Modifier.height(18.dp))
@@ -211,17 +222,17 @@ fun SignUpScreen() {
                 InputLabel("Confirmar contraseña")
                 Spacer(Modifier.height(4.dp))
                 StyledInput(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
+                    value = state.confirmPassword,
+                    onValueChange = viewModel::onConfirmPasswordChange,
                     placeholder = "Repite tu contraseña",
                     leadingIconRes = R.drawable.icon_password,
                     isPassword = true,
-                    passwordVisible = confirmPasswordVisible,
-                    onTogglePassword = { confirmPasswordVisible = !confirmPasswordVisible },
-                    isError = !passwordsMatch
+                    passwordVisible = state.confirmPasswordVisible,
+                    onTogglePassword = viewModel::onToggleConfirmPasswordVisible,
+                    isError = !state.passwordsMatch
                 )
 
-                if (!passwordsMatch) {
+                if (!state.passwordsMatch) {
                     Text(
                         text = "Las contraseñas no coinciden",
                         color = Color(0xFFD32F2F),
@@ -247,7 +258,8 @@ fun SignUpScreen() {
                             disabledContainerColor = Color(0xFFF5A623),
                             disabledContentColor = Color.White.copy(alpha = 0.5f)
                         ),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = viewModel::onSignUp
                     )
 
                     Spacer(Modifier.height(18.dp))
@@ -283,5 +295,9 @@ fun SignUpScreen() {
                 }
             }
         }
+    }
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) navController.navigate("signup_success")
     }
 }
