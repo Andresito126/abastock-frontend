@@ -139,7 +139,7 @@ fun CreateProductScreen(
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { },
+            onClick = {onProductCreated(barcode)},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp)
