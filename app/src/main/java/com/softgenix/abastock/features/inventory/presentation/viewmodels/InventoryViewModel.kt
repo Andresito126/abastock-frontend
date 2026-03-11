@@ -2,6 +2,7 @@ package com.softgenix.abastock.features.inventory.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.softgenix.abastock.core.hardware.domain.VoiceManager
 import com.softgenix.abastock.features.inventory.domain.usecases.GetInventoryUseCase
 import com.softgenix.abastock.features.inventory.domain.usecases.SearchInventoryUseCase
 import com.softgenix.abastock.features.inventory.presentation.screens.InventoryUiState
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class InventoryViewModel @Inject constructor(
     private val getInventoryUseCase: GetInventoryUseCase,
-    private val searchInventoryUseCase: SearchInventoryUseCase
+    private val searchInventoryUseCase: SearchInventoryUseCase,
+    private val voiceManager: VoiceManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(InventoryUiState())
@@ -25,6 +27,13 @@ class InventoryViewModel @Inject constructor(
         loadInventory("STORE_ID_HARDCODED") // ahorita ahrcodeadoo
     }
 
+    //hard
+    fun startVoiceSearch() {
+        voiceManager.startListening { text ->
+            onSearchQueryChange(text)
+        }
+    }
+    //
     fun loadInventory(storeId: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }

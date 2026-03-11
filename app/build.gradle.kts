@@ -98,6 +98,9 @@ dependencies {
 
     implementation(libs.accompanist.systemuicontroller)
 
+    //Hardware
+    implementation(libs.accompanist.permissions)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

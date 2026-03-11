@@ -32,6 +32,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.AbastockBottomBar
 import com.softgenix.abastock.core.shared.components.BackButton
@@ -44,6 +47,7 @@ import com.softgenix.abastock.features.home.presentation.components.SummarySaleC
 import com.softgenix.abastock.features.inventory.presentation.components.InventoryListItem
 import com.softgenix.abastock.features.inventory.presentation.viewmodels.InventoryViewModel
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun InventoryScreen(
     navController: NavHostController,
@@ -51,6 +55,11 @@ fun InventoryScreen(
     viewModel: InventoryViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    //para pedir permiso del micro
+    val permissionState = rememberPermissionState(
+        permission = android.Manifest.permission.RECORD_AUDIO
+    )
 
     Scaffold(
         topBar = {
@@ -88,7 +97,13 @@ fun InventoryScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 FloatingActionButton(
-                    onClick = { },
+                    onClick= {
+                        if (permissionState.status.isGranted) {
+                            viewModel.startVoiceSearch()
+                        } else {
+                            permissionState.launchPermissionRequest()
+                        }
+                    },
                     containerColor = MaterialTheme.colorScheme.secondary
                 ) {
                     Icon(Icons.Default.Mic, contentDescription = "Voz", tint = Color.White)
