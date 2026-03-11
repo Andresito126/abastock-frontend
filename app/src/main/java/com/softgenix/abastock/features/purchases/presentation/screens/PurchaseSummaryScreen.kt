@@ -44,7 +44,8 @@ import com.softgenix.abastock.features.inventory.presentation.components.Product
 
 @Composable
 fun PurchaseSummaryScreen(
-    navController: NavController
+    onFinish: () -> Unit,
+    onScanAnother: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -108,7 +109,7 @@ fun PurchaseSummaryScreen(
         ) {
 
             OutlinedButton(
-                onClick = { /* se va de nuevo a la ui2*/ },
+                onClick = { onScanAnother },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 border = BorderStroke(1.5.dp, NavyMid)
@@ -119,7 +120,7 @@ fun PurchaseSummaryScreen(
             }
 
             Button(
-                onClick = { /* ggs papu*/ },
+                onClick = { onFinish },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = SuccessGreen)

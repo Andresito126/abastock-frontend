@@ -11,6 +11,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.home.navigation.HomeNavGraph
+import com.softgenix.abastock.features.purchases.navigation.PurchasesNavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +21,8 @@ class MainActivity : ComponentActivity() {
 
         val navGraphs = listOf(
             InventoryNavGraph(),
-            HomeNavGraph()
+            HomeNavGraph(),
+            PurchasesNavGraph()
         )
 
         setContent {

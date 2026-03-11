@@ -48,7 +48,7 @@ import com.softgenix.abastock.core.ui.theme.WhitePure
 @Composable
 fun PurchaseScannerScreen(
     onBarcodeDetected: (String) -> Unit,
-    onBackClick: () -> Unit
+    // onBackClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -91,7 +91,9 @@ fun PurchaseScannerScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = {  },
+                onClick = {
+                    onBarcodeDetected("7501011122334")
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),

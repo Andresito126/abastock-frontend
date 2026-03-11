@@ -33,7 +33,10 @@ import com.softgenix.abastock.core.shared.components.StyledInput
 import com.softgenix.abastock.core.ui.theme.TextSec
 
 @Composable
-fun CreateProductScreen() {
+fun CreateProductScreen(
+    barcode: String,
+    onProductCreated: (String) -> Unit
+) {
     val colorScheme = MaterialTheme.colorScheme
 
     Column(

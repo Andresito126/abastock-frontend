@@ -46,7 +46,8 @@ import com.softgenix.abastock.features.inventory.presentation.components.Product
 
 @Composable
 fun AddToCartScreen(
-    navController: NavController
+    barcode: String,
+    onAddedToCart: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -94,8 +95,7 @@ fun AddToCartScreen(
                     Text("Sabritas · Bolsa 45 g", color = TextSec, fontSize = 13.sp)
                     Spacer(Modifier.height(4.dp))
                     Surface(color = GrayLight, shape = RoundedCornerShape(8.dp)) {
-                        Text("7501011122334", modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp), fontSize = 11.sp, color = TextSec)
-                    }
+                        Text(barcode, modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp), fontSize = 11.sp, color = TextSec)                    }
                 }
             }
         }
@@ -134,7 +134,7 @@ fun AddToCartScreen(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            color = Color(0xFFE8F5E9), // Verde pastel
+            color = Color(0xFFE8F5E9),
             border = BorderStroke(1.dp, SuccessGreen)
         ) {
             Row(
@@ -156,7 +156,7 @@ fun AddToCartScreen(
         Spacer(Modifier.height(40.dp))
 
         Button(
-            onClick = { },
+            onClick = onAddedToCart,
             modifier = Modifier.fillMaxWidth().height(60.dp),
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(containerColor = AccentGold)

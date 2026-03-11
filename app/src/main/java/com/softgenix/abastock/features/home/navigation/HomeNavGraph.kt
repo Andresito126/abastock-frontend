@@ -7,7 +7,8 @@ import com.softgenix.abastock.core.navigation.CreateProduct
 import com.softgenix.abastock.core.navigation.FeatureNavGraph
 import com.softgenix.abastock.core.navigation.Home
 import com.softgenix.abastock.core.navigation.Inventory
-import com.softgenix.abastock.core.navigation.Scanner
+import com.softgenix.abastock.core.navigation.PurchaseEmptyCart
+import com.softgenix.abastock.core.navigation.PurchaseScanner
 import com.softgenix.abastock.features.home.presentation.screens.HomeScreen
 
 class HomeNavGraph: FeatureNavGraph {
@@ -15,7 +16,7 @@ class HomeNavGraph: FeatureNavGraph {
         navGraphBuilder.composable <Home>{
             HomeScreen(
                 onNavigateToPay = {
-                    navController.navigate(Scanner)
+                    navController.navigate(PurchaseEmptyCart) //aun no estaaaa
                 },
                 onNavigateToAddProducts = {
                     navController.navigate(CreateProduct)

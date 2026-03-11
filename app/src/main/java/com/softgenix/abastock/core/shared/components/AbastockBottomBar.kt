@@ -36,7 +36,7 @@ import com.softgenix.abastock.core.navigation.Inventory
 
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.softgenix.abastock.core.navigation.Home
-import com.softgenix.abastock.core.navigation.Scanner
+import com.softgenix.abastock.core.navigation.PurchaseScanner
 
 @Composable
 fun AbastockBottomBar(
@@ -111,7 +111,7 @@ fun AbastockBottomBar(
             modifier = Modifier
                 .offset(y = (-32.dp))
                 .size(64.dp)
-                .clickable { navController.navigate(Scanner) },
+                .clickable { navController.navigate(PurchaseScanner) }, //aun no estaaaa
             shape = CircleShape,
             color = Color(0xFF0F1C2E),
             shadowElevation = 10.dp

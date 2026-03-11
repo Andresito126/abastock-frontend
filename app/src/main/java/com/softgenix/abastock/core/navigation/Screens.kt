@@ -15,10 +15,19 @@ object Register
 @Serializable
 object Inventory
 @Serializable
-object Scanner
-@Serializable
-object CreateProduct
+data class CreateProduct(val barcode: String? = null)
 
 //home
 @Serializable
 object Home
+
+//purchases
+
+@Serializable
+object PurchaseScanner
+@Serializable
+object PurchaseEmptyCart
+@Serializable
+object PurchaseSummary
+@Serializable
+data class AddToCart (val barcode: String)

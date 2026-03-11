@@ -2,7 +2,6 @@ package com.softgenix.abastock.features.inventory.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,26 +12,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.softgenix.abastock.core.navigation.CreateProduct
-import com.softgenix.abastock.core.navigation.Scanner
 import com.softgenix.abastock.core.shared.components.AbastockBottomBar
 import com.softgenix.abastock.core.shared.components.FilterCategory
 import com.softgenix.abastock.features.inventory.presentation.components.InventoryListItem
@@ -40,6 +31,7 @@ import com.softgenix.abastock.features.inventory.presentation.components.Invento
 @Composable
 fun InventoryScreen(
     navController: NavHostController,
+    onAddPurchaseClick: () -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
@@ -54,7 +46,7 @@ fun InventoryScreen(
                     Icon(Icons.Default.Mic, contentDescription = "Voz", tint = Color.White)
                 }
                 FloatingActionButton(
-                    onClick = { },
+                    onClick = onAddPurchaseClick,
                     containerColor = MaterialTheme.colorScheme.primary
                 ) {
                     Icon(Icons.Default.Add, contentDescription = "Comprar", tint = Color.White)
