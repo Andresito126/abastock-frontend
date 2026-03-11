@@ -44,7 +44,8 @@ import com.softgenix.abastock.features.authentication.presentation.viewmodels.Si
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignInScreen(
-    navController: NavController,
+    onNavigateToRegister: () -> Unit,
+    onLoginSuccess: () -> Unit,
     viewModel: SignInViewModel = hiltViewModel()
 ) {
 
@@ -52,9 +53,7 @@ fun SignInScreen(
 
     LaunchedEffect(state.isAuthenticated) {
         if (state.isAuthenticated) {
-            navController.navigate("home") {
-                popUpTo("signin") { inclusive = true }
-            }
+            onLoginSuccess()
         }
     }
 
@@ -277,7 +276,7 @@ fun SignInScreen(
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null
-                        ) { },
+                        ) {onNavigateToRegister() },
                     textAlign = TextAlign.Center
                 )
             }

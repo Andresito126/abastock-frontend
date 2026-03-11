@@ -9,10 +9,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
+import com.softgenix.abastock.features.authentication.navigation.AuthNavGraph
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
 import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
 import dagger.hilt.android.AndroidEntryPoint
+import com.softgenix.abastock.core.navigation.NavigationWrapper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -22,7 +24,8 @@ class MainActivity : ComponentActivity() {
 
 
         val navGraphs = listOf(
-            InventoryNavGraph()
+            InventoryNavGraph(),
+            AuthNavGraph()
         )
 
         setContent {
@@ -36,8 +39,10 @@ class MainActivity : ComponentActivity() {
             }
 
             AbastockTheme {
-                SignUpScreen()
+                NavigationWrapper(
+                    navGraphs = navGraphs
+                )
             }
         }
     }
-    }
+}

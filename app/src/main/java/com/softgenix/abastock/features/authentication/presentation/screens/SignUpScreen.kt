@@ -40,11 +40,19 @@ import com.softgenix.abastock.features.authentication.presentation.viewmodels.Si
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
+    onNavigateToLogin: () -> Unit,
+    onSignUpSuccess: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) {
+            onSignUpSuccess()
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -289,7 +297,7 @@ fun SignUpScreen(
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = null
-                            ) {},
+                            ) {onNavigateToLogin() },
                         textAlign = TextAlign.Center
                     )
                 }
