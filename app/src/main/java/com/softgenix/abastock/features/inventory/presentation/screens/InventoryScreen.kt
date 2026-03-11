@@ -2,6 +2,7 @@ package com.softgenix.abastock.features.inventory.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,21 +20,68 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.AbastockBottomBar
+import com.softgenix.abastock.core.shared.components.BackButton
 import com.softgenix.abastock.core.shared.components.FilterCategory
+import com.softgenix.abastock.core.shared.components.Header
+import com.softgenix.abastock.core.shared.components.HeaderBubble
+import com.softgenix.abastock.core.shared.components.StyledInput
+import com.softgenix.abastock.core.shared.entities.Bubble
+import com.softgenix.abastock.features.home.presentation.components.SummarySaleCard
 import com.softgenix.abastock.features.inventory.presentation.components.InventoryListItem
+import com.softgenix.abastock.features.inventory.presentation.viewmodels.InventoryViewModel
 
 @Composable
 fun InventoryScreen(
     navController: NavHostController,
-    onAddPurchaseClick: () -> Unit
+    onAddPurchaseClick: () -> Unit,
+    viewModel: InventoryViewModel = hiltViewModel()
 ) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
     Scaffold(
+        topBar = {
+            Header(modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)) {
+                HeaderBubble(
+                    Bubble(130, 30, 20),
+                    Bubble(180, -40, -40)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 18.dp)
+                        .padding(top = 45.dp)
+                ) {
+                    BackButton(
+                        nameAction = "Inventario",
+                    )
+                    Spacer(Modifier.height(12.dp))
+
+                    StyledInput(
+                        value = state.searchQuery,
+                        onValueChange = viewModel::onSearchQueryChange,
+                        placeholder = "Nombre, marca o código...",
+                        leadingIconRes = R.drawable.search_icon
+                    )
+                }
+            }
+        },
+
         floatingActionButton = {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(start=30.dp),
@@ -75,7 +123,7 @@ fun InventoryScreen(
                         FilterCategory(
                             text = cat,
                             isSelected = cat == "Todos",
-                            onSelected = {  }
+                            onSelected = { viewModel.onCategorySelected(cat) }
                         )
                     }
                 }
@@ -93,6 +141,19 @@ fun InventoryScreen(
 
                 )
             }
+
+            /*
+            items(state.filteredItems) { item ->
+                InventoryListItem(
+                    name = item.productName,
+                    brand = item.brandName,
+                    price = item.salePrice,
+                    stock = item.currentStock.toInt(),
+                    category = item.categoryName
+                )
+            }
+
+             */
         }
     }
 }

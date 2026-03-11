@@ -12,7 +12,9 @@ import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.home.navigation.HomeNavGraph
 import com.softgenix.abastock.features.purchases.navigation.PurchasesNavGraph
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
