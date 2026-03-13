@@ -28,11 +28,7 @@ class InventoryRepositoryImpl @Inject constructor(
     override suspend fun getInventory(storeId: String): Result<List<InventoryItem>> {
         return try {
             val response = api.getInventory(storeId)
-            if (response.success) {
-                Result.success(response.data.map { it.toDomain() })
-            } else {
-                Result.failure(Exception(response.message))
-            }
+            Result.success(response.map { it.toDomain() })
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -41,11 +37,7 @@ class InventoryRepositoryImpl @Inject constructor(
     override suspend fun searchInventory(storeId: String, query: String): Result<List<InventoryItem>> {
         return try {
             val response = api.searchInventory(storeId, query)
-            if (response.success) {
-                Result.success(response.data.map { it.toDomain() })
-            } else {
-                Result.failure(Exception(response.message))
-            }
+            Result.success(response.map { it.toDomain() })
         } catch (e: Exception) {
             Result.failure(e)
         }

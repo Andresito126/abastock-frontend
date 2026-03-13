@@ -1,19 +1,20 @@
 package com.softgenix.abastock.features.inventory.data.datasources.remote.models
 
+import com.google.gson.annotations.SerializedName
+
 data class InventoryDto(
-    val inventoryId: String,
-    val presentationId: String,
-    val productName: String,
-    val brandName: String,
-    val categoryName: String,
-    val currentStock: Double,
-    val minStockAlert: Double,
-    val salePrice: Double,
+    @SerializedName("inventory_id") val inventoryId: String,
+    @SerializedName("presentation_id") val presentationId: String,
+    @SerializedName("product_name") val productName: String,
+    @SerializedName("brand_name") val brandName: String,
+    @SerializedName("category_name") val categoryName: String,
+    @SerializedName("current_stock") val currentStock: String,
+    @SerializedName("sale_price") val salePrice: String,
+    @SerializedName("image_uri") val imageUri: String?,
     val unit: String,
-    val value: Double,
+    val value: String,
     val barcode: String
 )
-
 data class InventoryScanDto(
     val inventory_id: String,
     val current_stock: String,

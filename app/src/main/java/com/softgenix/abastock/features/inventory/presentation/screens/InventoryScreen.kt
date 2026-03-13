@@ -127,11 +127,26 @@ fun InventoryScreen(
             contentPadding = PaddingValues(10.dp)
         ) {
 
+            if (state.isLoading) {
+                item {
+                    Column(
+                        modifier = Modifier.fillParentMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        androidx.compose.material3.CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.height(8.dp))
+                        Text("Cargando inventario...", color = Color.Gray)
+                    }
+                }
+            }
+
             item {
-                val categorias = listOf("Todos", "Bebidas", "Botanas", "Lácteos", "Panadería")
+                val categorias =
+                    listOf("Todos", "Bebidas", "Botanas", "Lácteos", "Panadería", "Enlatados")
                 LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(categorias) { cat ->
@@ -142,33 +157,30 @@ fun InventoryScreen(
                         )
                     }
                 }
-                Spacer(Modifier.height(16.dp))
             }
 
 
-            items(7) {
-                InventoryListItem(
-                    name = "Coca-Cola 600ml",
-                    brand = "Coca-Cola",
-                    price = 15.00,
-                    stock = 48,
-                    category = "Bebidas",
-
-                )
+            if (!state.isLoading && state.filteredItems.isEmpty()) {
+                item {
+                    Text(
+                        "No se encontraron productos",
+                        modifier = Modifier.fillMaxWidth().padding(top = 50.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        color = Color.Gray
+                    )
+                }
             }
 
-            /*
             items(state.filteredItems) { item ->
                 InventoryListItem(
                     name = item.productName,
                     brand = item.brandName,
                     price = item.salePrice,
                     stock = item.currentStock.toInt(),
-                    category = item.categoryName
+                    category = item.categoryName,
+                    imageUrl = item.imageUri
                 )
             }
-
-             */
         }
     }
 }

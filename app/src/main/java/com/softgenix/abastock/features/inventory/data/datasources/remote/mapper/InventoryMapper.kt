@@ -20,15 +20,15 @@ fun InventoryDto.toDomain(): InventoryItem {
         productName = this.productName,
         brandName = this.brandName,
         categoryName = this.categoryName,
-        currentStock = this.currentStock,
-        minStockAlert = this.minStockAlert,
-        salePrice = this.salePrice,
+        currentStock = this.currentStock.toDoubleOrNull() ?: 0.0,
+        minStockAlert = 0.0,
+        salePrice = this.salePrice.toDoubleOrNull() ?: 0.0,
         unit = this.unit,
-        value = this.value,
-        barcode = this.barcode
+        value = this.value.toDoubleOrNull() ?: 0.0,
+        barcode = this.barcode,
+        imageUri = this.imageUri
     )
 }
-
 fun InventoryScanResponse.toDomain(): ScannedProduct {
     return ScannedProduct(
         id = this.inventory_id,

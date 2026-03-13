@@ -4,6 +4,7 @@ package com.softgenix.abastock.features.inventory.data.datasources.remote.api
 import com.softgenix.abastock.features.inventory.data.datasources.remote.models.BrandDto
 import com.softgenix.abastock.features.inventory.data.datasources.remote.models.CategoryDto
 import com.softgenix.abastock.features.inventory.data.datasources.remote.models.CreateProductRequestDto
+import com.softgenix.abastock.features.inventory.data.datasources.remote.models.InventoryDto
 import com.softgenix.abastock.features.inventory.data.datasources.remote.models.InventoryResponse
 import com.softgenix.abastock.features.inventory.data.datasources.remote.models.InventoryScanResponse
 import okhttp3.MultipartBody
@@ -17,16 +18,18 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface InventoryApi {
-    @GET("inventory/store/{storeId}")
+    @GET("inventories")
     suspend fun getInventory(
-        @Path("storeId") storeId: String
-    ): InventoryResponse
+        @Query("storeId") storeId: String
+    ): List<InventoryDto>
+
 
     @GET("inventory/store/{storeId}/search")
     suspend fun searchInventory(
         @Path("storeId") storeId: String,
         @Query("q") query: String
-    ): InventoryResponse
+    ): List<InventoryDto>
+
 
     @GET("inventories/scan")
     suspend fun scanProduct(

@@ -2,6 +2,7 @@ package com.softgenix.abastock.features.inventory.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.softgenix.abastock.core.data.local.TokenManager
 import com.softgenix.abastock.core.hardware.domain.VoiceManager
 import com.softgenix.abastock.features.inventory.domain.usecases.GetInventoryUseCase
 import com.softgenix.abastock.features.inventory.domain.usecases.SearchInventoryUseCase
@@ -17,34 +18,40 @@ import javax.inject.Inject
 class InventoryViewModel @Inject constructor(
     private val getInventoryUseCase: GetInventoryUseCase,
     private val searchInventoryUseCase: SearchInventoryUseCase,
-    private val voiceManager: VoiceManager
+    private val voiceManager: VoiceManager,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(InventoryUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        loadInventory("STORE_ID_HARDCODED") // ahorita ahrcodeadoo
+        val storeId = tokenManager.getSession()?.storeId ?: ""
+        if (storeId.isNotEmpty()) {
+            loadInventory(storeId)
+        } else {
+            _uiState.update { it.copy(errorMessage = "No se encontró ID de tienda") }
+        }
     }
 
-    //hard
     fun startVoiceSearch() {
         voiceManager.startListening { text ->
             onSearchQueryChange(text)
         }
     }
-    //
+
     fun loadInventory(storeId: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            getInventoryUseCase(storeId).fold(
-                onSuccess = { list ->
-                    _uiState.update { it.copy(isLoading = false, items = list, filteredItems = list) }
-                },
-                onFailure = { error ->
-                    _uiState.update { it.copy(isLoading = false, errorMessage = error.message) }
-                }
-            )
+            getInventoryUseCase(storeId).onSuccess { list ->
+                _uiState.update { it.copy(
+                    isLoading = false,
+                    items = list,
+                    filteredItems = list
+                ) }
+            }.onFailure { error ->
+                _uiState.update { it.copy(isLoading = false, errorMessage = error.message) }
+            }
         }
     }
 
