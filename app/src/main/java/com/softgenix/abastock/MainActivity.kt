@@ -9,11 +9,15 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.softgenix.abastock.core.ui.theme.AbastockTheme
-import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.home.navigation.HomeNavGraph
 import com.softgenix.abastock.features.purchases.navigation.PurchasesNavGraph
 import com.softgenix.abastock.features.sales.navigation.SalesNavGraph
+import com.softgenix.abastock.features.authentication.navigation.AuthNavGraph
+import com.softgenix.abastock.features.authentication.presentation.screens.SignUpScreen
+import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
+import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
 import dagger.hilt.android.AndroidEntryPoint
+import com.softgenix.abastock.core.navigation.NavigationWrapper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,6 +28,7 @@ class MainActivity : ComponentActivity() {
 
         val navGraphs = listOf(
             InventoryNavGraph(),
+            AuthNavGraph(),
             HomeNavGraph(),
             PurchasesNavGraph(),
             SalesNavGraph()

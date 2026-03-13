@@ -9,6 +9,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.softgenix.abastock.R
 import com.softgenix.abastock.core.shared.components.Header
 import com.softgenix.abastock.core.ui.theme.CardBg
@@ -25,9 +30,30 @@ import com.softgenix.abastock.core.ui.theme.Surface
 import com.softgenix.abastock.core.ui.theme.TextSec
 import com.softgenix.abastock.features.authentication.presentation.components.SuccessCheckIcon
 import com.softgenix.abastock.features.authentication.presentation.components.SuccessInfoRow
+import com.softgenix.abastock.features.authentication.presentation.viewmodels.SignUpViewModel
+import kotlinx.coroutines.delay
 
 @Composable
-fun SignUpSuccessScreen() {
+fun SignUpSuccessScreen(
+    onLoginSuccess: () -> Unit,
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
+
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    // Lanzar login automático al entrar a la pantalla
+    LaunchedEffect(Unit) {
+        viewModel.onSuccessScreenEntered()
+        delay(5000L)
+        viewModel.onAutoLogin()
+    }
+
+    // Justo cuando termine el login, ir a Home
+    LaunchedEffect(state.isAuthenticated) {
+        if (state.isAuthenticated) {
+            onLoginSuccess()
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -139,10 +165,11 @@ fun SignUpSuccessScreen() {
                         )
                         .padding(vertical = 4.dp)
                 ) {
+
                     SuccessInfoRow(
                         iconRes = R.drawable.store_icon,
                         label = "Tienda",
-                        value = "Mi Tienda"
+                        value = state.storeName
                     )
 
                     HorizontalDivider(
@@ -153,7 +180,7 @@ fun SignUpSuccessScreen() {
                     SuccessInfoRow(
                         iconRes = R.drawable.person_icon,
                         label = "Dueño",
-                        value = "Juliancita"
+                        value = state.name + " " + state.lastName
                     )
 
                     HorizontalDivider(
@@ -164,7 +191,7 @@ fun SignUpSuccessScreen() {
                     SuccessInfoRow(
                         iconRes = R.drawable.call_icon,
                         label = "Teléfono",
-                        value = "9613456789"
+                        value = state.phoneNumber
                     )
 
                     HorizontalDivider(
@@ -175,7 +202,7 @@ fun SignUpSuccessScreen() {
                     SuccessInfoRow(
                         iconRes = R.drawable.email_icon,
                         label = "Correo",
-                        value = "correo@gmail.com"
+                        value = state.email
                     )
                 }
 
@@ -186,18 +213,15 @@ fun SignUpSuccessScreen() {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(18.dp),
-                        strokeWidth = 2.dp,
-                        color = NavyMid
-                    )
-                    Spacer(Modifier.width(10.dp))
-                    Text(
-                        text = "Entrando a tu tienda...",
-                        fontSize = 13.sp,
-                        color = TextSec,
-                        fontWeight = FontWeight.Medium
-                    )
+                    if (state.isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp,
+                            color = NavyMid
+                        )
+                        Spacer(Modifier.width(10.dp))
+                        Text("Entrando a tu tienda...")
+                    }
                 }
             }
         }

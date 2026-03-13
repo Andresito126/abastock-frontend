@@ -7,8 +7,12 @@ import kotlinx.serialization.Serializable
 object Login
 
 @Serializable
+object RegisterGraph
+@Serializable
 object Register
 
+@Serializable
+object SuccessRegister
 
 // inventario
 
