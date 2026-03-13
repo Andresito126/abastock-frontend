@@ -2,6 +2,7 @@ package com.softgenix.abastock.features.purchases.presentation.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,12 +27,18 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
 import com.softgenix.abastock.core.ui.theme.AccentGold
 import com.softgenix.abastock.core.ui.theme.ErrorRed
 import com.softgenix.abastock.core.ui.theme.GrayLight
@@ -41,12 +48,26 @@ import com.softgenix.abastock.core.ui.theme.Surface
 import com.softgenix.abastock.core.ui.theme.TextPrim
 import com.softgenix.abastock.core.ui.theme.TextSec
 import com.softgenix.abastock.features.inventory.presentation.components.ProductCard
+import com.softgenix.abastock.features.purchases.presentation.viewmodels.SupplyViewModel
 
 @Composable
 fun PurchaseSummaryScreen(
     onFinish: () -> Unit,
-    onScanAnother: () -> Unit
+    onScanAnother: () -> Unit,
+    storeId: String,
+    viewModel: SupplyViewModel = hiltViewModel(),
 ) {
+
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(storeId) {
+        viewModel.setStoreId(storeId)
+    }
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) { onFinish() }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +80,7 @@ fun PurchaseSummaryScreen(
         ) {
             item {
                 Text(
-                    text = "Productos en la compra",
+                    text = "Productos en la compra (${state.cartItems.size})",
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = TextPrim,
@@ -67,34 +88,61 @@ fun PurchaseSummaryScreen(
                 )
             }
 
-            item {
+            items(state.cartItems) { item ->
                 ProductCard {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Surface(modifier = Modifier.size(65.dp), shape = RoundedCornerShape(12.dp), color = GrayLight) { }
+                        Surface(
+                            modifier = Modifier.size(65.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            color = GrayLight
+                        ) {
+                            AsyncImage(
+                                model = item.imageUrl,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
 
                         Spacer(Modifier.width(12.dp))
 
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("Sabritas Original 45g", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                            Text("Sabritas", color = TextSec, fontSize = 12.sp)
+                            Text(item.name, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                            Text(item.brand, color = TextSec, fontSize = 12.sp)
 
-                            Row(modifier = Modifier.padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            Row(
+                                modifier = Modifier.padding(top = 8.dp),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
                                 Column {
                                     Text("Cantidad", fontSize = 10.sp, color = TextSec)
-                                    Text("50 uds", fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                                    Text(
+                                        "${item.quantity} uds",
+                                        fontSize = 13.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
                                 Column {
                                     Text("P. Compra", fontSize = 10.sp, color = TextSec)
-                                    Text("$9.00", fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                                    Text(
+                                        "$${String.format("%.2f", item.costPrice)}",
+                                        fontSize = 13.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
                             }
                         }
 
                         Column(horizontalAlignment = Alignment.End) {
-                            Icon(Icons.Default.Delete, contentDescription = null, tint = ErrorRed, modifier = Modifier.size(20.dp))
+
                             Spacer(Modifier.height(16.dp))
                             Text("Subtotal", fontSize = 10.sp, color = TextSec)
-                            Text("$450.00", color = AccentGold, fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
+                            Text(
+                                text = "$${String.format("%.2f", item.quantity * item.costPrice)}",
+                                color = AccentGold,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 16.sp
+                            )
                         }
                     }
                 }
@@ -109,8 +157,10 @@ fun PurchaseSummaryScreen(
         ) {
 
             OutlinedButton(
-                onClick = { onScanAnother },
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                onClick = onScanAnother,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 border = BorderStroke(1.5.dp, NavyMid)
             ) {
@@ -120,14 +170,26 @@ fun PurchaseSummaryScreen(
             }
 
             Button(
-                onClick = { onFinish },
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                onClick = {
+                    viewModel.finishPurchase(storeId)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = SuccessGreen)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = SuccessGreen,
+                    disabledContainerColor = GrayLight
+                ),
+                enabled = !state.isLoading && state.cartItems.isNotEmpty()
             ) {
-                Icon(Icons.Default.Save, contentDescription = null)
-                Spacer(Modifier.width(8.dp))
-                Text("Finalizar Compra", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                if (state.isLoading) {
+                    Text("Procesando...")
+                } else {
+                    Icon(Icons.Default.Save, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Finalizar Compra", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                }
             }
         }
     }

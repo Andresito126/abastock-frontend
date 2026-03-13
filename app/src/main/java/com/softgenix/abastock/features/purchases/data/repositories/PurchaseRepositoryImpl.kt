@@ -9,10 +9,13 @@ import javax.inject.Inject
 
 
 import com.softgenix.abastock.features.purchases.domain.entities.Purchase
+import com.softgenix.abastock.features.purchases.domain.entities.SupplyTransaction
+import com.softgenix.abastock.features.purchases.domain.repositories.SupplyRepository
 
 class PurchaseRepositoryImpl @Inject constructor(
-    private val api: PurchasesApi
-) : PurchaseRepository {
+    private val api: PurchasesApi,
+
+) : PurchaseRepository, SupplyRepository {
 
     override suspend fun getProductByBarcode(barcode: String): Result<PurchaseItem?> {
         return try {
@@ -36,4 +39,19 @@ class PurchaseRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun processFinalPurchase(transaction: SupplyTransaction): Result<Unit> {
+        return try {
+            val response = api.createPurchase(transaction.toDto())
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Error desconocido"
+                Result.failure(Exception(errorBody))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 }

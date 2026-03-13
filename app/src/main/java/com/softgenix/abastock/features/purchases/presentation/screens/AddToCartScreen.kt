@@ -53,12 +53,14 @@ import com.softgenix.abastock.core.ui.theme.TextPrim
 import com.softgenix.abastock.core.ui.theme.TextSec
 import com.softgenix.abastock.features.inventory.presentation.components.ProductCard
 import com.softgenix.abastock.features.purchases.presentation.viewmodels.AddToCartViewModel
+import com.softgenix.abastock.features.purchases.presentation.viewmodels.SupplyViewModel
 
 @Composable
 fun AddToCartScreen(
     barcode: String,
-    onAddedToCart: () -> Unit,
-    viewModel: AddToCartViewModel = hiltViewModel()
+    onAddedToCart: (String) -> Unit,
+    viewModel: AddToCartViewModel = hiltViewModel(),
+    supplyViewModel: SupplyViewModel = hiltViewModel()
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -83,36 +85,6 @@ fun AddToCartScreen(
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        /*
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp),
-            color = Color(0xFFE3F2FD),
-            border = BorderStroke(1.dp, Color(0xFF90CAF9))
-        ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(Icons.Default.Inventory2, contentDescription = null, tint = NavyMid)
-                Spacer(Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = "Stock actual: ${state.product?.stock ?: 0.0} unidades",
-                        fontWeight = FontWeight.Bold, color = NavyMid, fontSize = 14.sp
-                    )
-                    Text(
-                        "Se sumará al inventario existente",
-                        color = NavyMid.copy(alpha = 0.7f),
-                        fontSize = 12.sp
-                    )
-                }
-            }
-        }
-
-        Spacer(Modifier.height(24.dp)
-        */
 
 
         ProductCard {
@@ -224,11 +196,21 @@ fun AddToCartScreen(
             ) {
                 Column {
                     Text("Margen esperado", fontSize = 12.sp, color = SuccessGreen)
-                    Text("${String.format("%.1f", margenPorcentaje)}%", fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, color = SuccessGreen)
+                    Text(
+                        "${String.format("%.1f", margenPorcentaje)}%",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = SuccessGreen
+                    )
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text("Inversión total", fontSize = 12.sp, color = SuccessGreen)
-                    Text("$${String.format("%.2f", subtotalInversion)}", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = SuccessGreen)
+                    Text(
+                        "$${String.format("%.2f", subtotalInversion)}",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = SuccessGreen
+                    )
                 }
             }
         }
@@ -237,17 +219,46 @@ fun AddToCartScreen(
 
         Button(
             onClick = {
-                onAddedToCart()
+                try {
+                    val qty = state.quantity.toIntOrNull() ?: 0
+                    val cost = state.costPrice.toDoubleOrNull() ?: 0.0
+                    val sale = state.salePrice.toDoubleOrNull() ?: 0.0
+                    val product = state.product
+
+                    if (product == null) {
+                        return@Button
+                    }
+
+                    val item =
+                        com.softgenix.abastock.features.purchases.domain.entities.SupplyTransactionItem(
+                            itemId = "",
+                            presentationId = "",
+                            inventoryId = "",
+                            quantity = qty,
+                            costPrice = cost,
+                            salePrice = sale,
+                            name = product.productName,
+                            brand = product.brandName,
+                            imageUrl = product.imageUrl
+                        )
+
+                    supplyViewModel.addToCart(item)
+
+                    val finalStoreId = supplyViewModel.storeId.ifEmpty { "ID_DESCONOCIDO" }
+
+                    onAddedToCart(finalStoreId)
+
+                } catch (e: Exception) {
+                    android.util.Log.e("crhaseo", "Error al agregar: ${e.message}")
+                }
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp),
-            shape = RoundedCornerShape(20.dp),
+            modifier = Modifier.fillMaxWidth().height(56.dp),
+            shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = AccentGold)
         ) {
             Icon(Icons.Default.Add, contentDescription = null)
             Spacer(Modifier.width(8.dp))
-            Text("Agregar al Carrito", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text("Agregar al Carrito", fontWeight = FontWeight.Bold)
         }
     }
 }

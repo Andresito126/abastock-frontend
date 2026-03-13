@@ -28,11 +28,11 @@ object Home
 //purchases
 
 @Serializable
-object PurchaseScanner
+data class PurchaseScanner(val storeId: String)
 @Serializable
 object PurchaseEmptyCart
 @Serializable
-object PurchaseSummary
+data class PurchaseSummary(val storeId: String)
 @Serializable
 data class AddToCart (val barcode: String)
 
