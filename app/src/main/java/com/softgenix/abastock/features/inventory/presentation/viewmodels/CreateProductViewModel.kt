@@ -2,6 +2,7 @@ package com.softgenix.abastock.features.inventory.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.softgenix.abastock.core.hardware.domain.VibrationManager
 import com.softgenix.abastock.features.inventory.domain.entities.Brand
 import com.softgenix.abastock.features.inventory.domain.entities.Category
 import com.softgenix.abastock.features.inventory.domain.entities.NewBarcode
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateProductViewModel @Inject constructor(
     private val getInitialDataUseCase: GetCreateProductDataUseCase,
-    private val createProductUseCase: CreateProductUseCase
+    private val createProductUseCase: CreateProductUseCase,
+    private val vibrationManager: VibrationManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreateProductUiState())
@@ -65,8 +67,9 @@ class CreateProductViewModel @Inject constructor(
 
     fun saveProduct(barcode: String) {
         val state = _uiState.value
+
         if (state.selectedBrand == null || state.selectedCategory == null) {
-            android.util.Log.e("CREATE_PRODUCT", "Falta marca o categoría")
+            vibrationManager.vibrateError()
             return
         }
 
@@ -90,12 +93,17 @@ class CreateProductViewModel @Inject constructor(
                     )
                 )
             )
-            android.util.Log.d("CREATE_PRODUCT", "eniandooo: $newProduct")
-
             createProductUseCase(newProduct).onSuccess {
+                vibrationManager.vibrateSuccess()
+                android.util.Log.d("CREATE_PRODUCT", "Producto creado con éxito")
                 _uiState.update { it.copy(isLoading = false, isSuccess = true) }
             }.onFailure { e ->
-                _uiState.update { it.copy(isLoading = false, error = e.message ?: "Error desconocido") }
+                vibrationManager.vibrateError()
+                android.util.Log.e("CREATE_PRODUCT", "Error al crear: ${e.message}")
+                _uiState.update { it.copy(
+                    isLoading = false,
+                    error = e.message ?: "Error desconocido"
+                )}
             }
         }
     }
