@@ -12,6 +12,7 @@ import com.softgenix.abastock.core.ui.theme.AbastockTheme
 import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.home.navigation.HomeNavGraph
 import com.softgenix.abastock.features.purchases.navigation.PurchasesNavGraph
+import com.softgenix.abastock.features.sales.navigation.SalesNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
         val navGraphs = listOf(
             InventoryNavGraph(),
             HomeNavGraph(),
-            PurchasesNavGraph()
+            PurchasesNavGraph(),
+            SalesNavGraph()
         )
 
         setContent {

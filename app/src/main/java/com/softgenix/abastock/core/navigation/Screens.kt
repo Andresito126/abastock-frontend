@@ -31,3 +31,10 @@ object PurchaseEmptyCart
 object PurchaseSummary
 @Serializable
 data class AddToCart (val barcode: String)
+
+//sales
+
+@Serializable object SalesBase
+@Serializable object Cart
+@Serializable object ProductPicker
+@Serializable data class Success(val total: Double)
