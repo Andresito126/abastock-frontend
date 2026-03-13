@@ -137,7 +137,7 @@ fun InventoryScreen(
                     items(categorias) { cat ->
                         FilterCategory(
                             text = cat,
-                            isSelected = cat == "Todos",
+                            isSelected = cat == state.selectedCategory,
                             onSelected = { viewModel.onCategorySelected(cat) }
                         )
                     }
