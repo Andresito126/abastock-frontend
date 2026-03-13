@@ -7,5 +7,4 @@ data class PurchaseUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val isSuccess: Boolean = false,
-    val numid : String = "owo"
 )

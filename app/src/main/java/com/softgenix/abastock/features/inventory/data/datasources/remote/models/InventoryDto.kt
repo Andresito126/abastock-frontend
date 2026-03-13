@@ -14,6 +14,18 @@ data class InventoryDto(
     val barcode: String
 )
 
+data class InventoryScanDto(
+    val inventory_id: String,
+    val current_stock: String,
+    val product_name: String,
+    val brand_name: String,
+    val category_name: String,
+    val image_uri: String?,
+    val value: String,
+    val unit: String,
+    val barcode: String
+)
+
 data class InventoryResponse(
     val success: Boolean,
     val message: String,

@@ -35,8 +35,11 @@ class PurchasesNavGraph @Inject constructor(
         navGraphBuilder.composable<PurchaseScanner> {
             PurchaseScannerScreen(
                 scannerManager = scannerManager,
-                onBarcodeDetected = { barcode ->
+                onNavigateToCreate = { barcode ->
                     navController.navigate(CreateProduct(barcode))
+                },
+                onNavigateToExisting = { barcode ->
+                    navController.navigate(AddToCart(barcode))
                 }
             )
         }

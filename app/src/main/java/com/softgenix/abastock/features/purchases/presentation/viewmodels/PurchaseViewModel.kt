@@ -2,6 +2,8 @@ package com.softgenix.abastock.features.purchases.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.softgenix.abastock.features.inventory.domain.entities.ScannedProduct
+import com.softgenix.abastock.features.inventory.domain.usecases.ScanProductUseCase
 import com.softgenix.abastock.features.purchases.domain.entities.Purchase
 import com.softgenix.abastock.features.purchases.domain.entities.PurchaseItem
 import com.softgenix.abastock.features.purchases.domain.repositories.PurchaseRepository
@@ -21,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PurchaseViewModel @Inject constructor(
     private val getProductByBarcodeUseCase: GetProductByBarcodeUseCase,
-    private val savePurchaseUseCase: SavePurchaseUseCase
+    private val savePurchaseUseCase: SavePurchaseUseCase,
+    private val scanProductUseCase: ScanProductUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PurchaseUiState())
@@ -34,39 +37,35 @@ class PurchaseViewModel @Inject constructor(
 
     private var isProcessingBarcode = false
 
-    fun onBarcodeScanned(barcode: String, onNavigate: (String) -> Unit) {
+    fun onBarcodeScanned(
+        barcode: String,
+        onExists: (ScannedProduct) -> Unit,
+        onNotFound: (String) -> Unit
+    ) {
         if (isProcessingBarcode) return
         isProcessingBarcode = true
 
         viewModelScope.launch {
-            onNavigate(barcode)
-            delay(2000)
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+            scanProductUseCase(barcode).fold(
+                onSuccess = { product ->
+                    _uiState.update { it.copy(isLoading = false) }
+                    if (product != null) {
+                        onExists(product)
+                    } else {
+                        onNotFound(barcode)
+                    }
+                },
+                onFailure = { error ->
+                    _uiState.update { it.copy(isLoading = false, errorMessage = "Error de red: ${error.message}") }
+                }
+            )
+
+            delay(1500)
             isProcessingBarcode = false
         }
     }
-
-    fun onBarcodeScanned(
-        barcode: String,
-        onExists: (PurchaseItem) -> Unit,
-        onNotFound: (String) -> Unit
-    ) {
-        if (isProcessingBarcode) return
-
-        isProcessingBarcode = true
-
-        checkProduct(
-            barcode = barcode,
-            onExists = { item ->
-                isProcessingBarcode = false
-                onExists(item)
-            },
-            onNotFound = { code ->
-                isProcessingBarcode = false
-                onNotFound(code)
-            }
-        )
-    }
-
 
     fun checkProduct(
         barcode: String,
