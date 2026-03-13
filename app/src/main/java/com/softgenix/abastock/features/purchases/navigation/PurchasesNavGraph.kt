@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.softgenix.abastock.core.hardware.domain.ScannerManager
 import com.softgenix.abastock.core.navigation.AddToCart
 import com.softgenix.abastock.core.navigation.CreateProduct
 import com.softgenix.abastock.core.navigation.FeatureNavGraph
@@ -15,11 +16,14 @@ import com.softgenix.abastock.features.purchases.presentation.screens.AddToCartS
 import com.softgenix.abastock.features.purchases.presentation.screens.PurchaseEmptyCartScreen
 import com.softgenix.abastock.features.purchases.presentation.screens.PurchaseScannerScreen
 import com.softgenix.abastock.features.purchases.presentation.screens.PurchaseSummaryScreen
+import javax.inject.Inject
 
-class PurchasesNavGraph: FeatureNavGraph {
+class PurchasesNavGraph @Inject constructor(
+    private val scannerManager: ScannerManager
+) : FeatureNavGraph {
     override fun registerNavGraph(
         navGraphBuilder: NavGraphBuilder,
-        navController: NavHostController
+        navController: NavHostController,
     ) {
 
         navGraphBuilder.composable<PurchaseEmptyCart> {
@@ -30,10 +34,8 @@ class PurchasesNavGraph: FeatureNavGraph {
 
         navGraphBuilder.composable<PurchaseScanner> {
             PurchaseScannerScreen(
+                scannerManager = scannerManager,
                 onBarcodeDetected = { barcode ->
-
-                    // if (productExists) navController.navigate(AddToCart(barcode))
-                    // else navController.navigate(CreateProduct(barcode))
                     navController.navigate(CreateProduct(barcode))
                 }
             )

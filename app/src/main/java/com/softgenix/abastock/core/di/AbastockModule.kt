@@ -1,3 +1,4 @@
+/*
 package com.softgenix.abastock.core.di
 
 import dagger.Module
@@ -22,3 +23,4 @@ object AbastockModule {
             .build()
     }
 }
+*/

@@ -9,6 +9,7 @@ import com.softgenix.abastock.features.purchases.domain.usecases.GetProductByBar
 import com.softgenix.abastock.features.purchases.domain.usecases.SavePurchaseUseCase
 import com.softgenix.abastock.features.purchases.presentation.screens.PurchaseUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -30,6 +31,41 @@ class PurchaseViewModel @Inject constructor(
 
     val totalPurchase: Double
         get() = _uiState.value.cartItems.sumOf { it.quantity * it.costPrice }
+
+    private var isProcessingBarcode = false
+
+    fun onBarcodeScanned(barcode: String, onNavigate: (String) -> Unit) {
+        if (isProcessingBarcode) return
+        isProcessingBarcode = true
+
+        viewModelScope.launch {
+            onNavigate(barcode)
+            delay(2000)
+            isProcessingBarcode = false
+        }
+    }
+
+    fun onBarcodeScanned(
+        barcode: String,
+        onExists: (PurchaseItem) -> Unit,
+        onNotFound: (String) -> Unit
+    ) {
+        if (isProcessingBarcode) return
+
+        isProcessingBarcode = true
+
+        checkProduct(
+            barcode = barcode,
+            onExists = { item ->
+                isProcessingBarcode = false
+                onExists(item)
+            },
+            onNotFound = { code ->
+                isProcessingBarcode = false
+                onNotFound(code)
+            }
+        )
+    }
 
 
     fun checkProduct(

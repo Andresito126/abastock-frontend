@@ -18,9 +18,12 @@ import com.softgenix.abastock.features.inventory.navigation.InventoryNavGraph
 import com.softgenix.abastock.features.authentication.presentation.screens.SignUpSuccessScreen
 import dagger.hilt.android.AndroidEntryPoint
 import com.softgenix.abastock.core.navigation.NavigationWrapper
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject lateinit var purchasesGraph: PurchasesNavGraph
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,7 +33,7 @@ class MainActivity : ComponentActivity() {
             InventoryNavGraph(),
             AuthNavGraph(),
             HomeNavGraph(),
-            PurchasesNavGraph(),
+            purchasesGraph,
             SalesNavGraph()
         )
 

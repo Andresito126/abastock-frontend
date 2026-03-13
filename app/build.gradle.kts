@@ -101,6 +101,18 @@ dependencies {
     //Hardware
     implementation(libs.accompanist.permissions)
 
+    // CameraX
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+
+// ML Kit
+    implementation(libs.google.mlkit.barcode.scanning)
+
+// Utils
+    implementation(libs.guava)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

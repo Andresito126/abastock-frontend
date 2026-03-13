@@ -6,5 +6,6 @@ data class PurchaseUiState(
     val cartItems: List<PurchaseItem> = emptyList(),
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
-    val isSuccess: Boolean = false
+    val isSuccess: Boolean = false,
+    val numid : String = "owo"
 )

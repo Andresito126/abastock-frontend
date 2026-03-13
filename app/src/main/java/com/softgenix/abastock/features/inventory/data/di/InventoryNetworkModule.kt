@@ -1,6 +1,7 @@
 package com.softgenix.abastock.features.inventory.data.di
 
 import com.softgenix.abastock.core.di.AbastockRetrofit
+import com.softgenix.abastock.core.di.AppRetrofit
 import com.softgenix.abastock.features.inventory.data.datasources.remote.api.InventoryApi
 import dagger.Module
 import dagger.Provides
@@ -15,7 +16,7 @@ object InventoryNetworkModule {
 
     @Provides
     @Singleton
-    fun provideInventoryApi(@AbastockRetrofit retrofit: Retrofit): InventoryApi {
+    fun provideInventoryApi(@AppRetrofit retrofit: Retrofit): InventoryApi {
         return retrofit.create(InventoryApi::class.java)
     }
 }
