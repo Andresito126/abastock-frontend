@@ -67,9 +67,9 @@ class PurchasesNavGraph @Inject constructor(
                     storeId = route.storeId,
                     viewModel = hiltViewModel(parentEntry),
                     onFinish = {
-                        navController.navigate(Home) {
-                            popUpTo<PurchasesGraph> { inclusive = true }
-                        }
+                            navController.navigate(Inventory) {
+                                popUpTo<PurchasesGraph> { inclusive = true }
+                            }
                     },
                     onScanAnother = {
                         navController.navigate(PurchaseScanner(storeId = route.storeId)) {

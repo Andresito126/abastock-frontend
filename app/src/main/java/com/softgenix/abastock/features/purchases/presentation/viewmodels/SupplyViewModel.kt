@@ -61,7 +61,7 @@ class SupplyViewModel @Inject constructor(
         val state = _uiState.value
 
         if (finalId.isEmpty()) {
-            android.util.Log.e("SUPPLY_VM", "¡ERROR! Sigo sin ID de tienda")
+            android.util.Log.e("SUPPLY_VM", "error iddddd")
             return
         }
 

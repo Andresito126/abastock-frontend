@@ -37,7 +37,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.softgenix.abastock.core.ui.theme.AccentGold
 import com.softgenix.abastock.core.ui.theme.ErrorRed
@@ -59,6 +63,29 @@ fun PurchaseSummaryScreen(
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (state.isLoading) {
+        Dialog(
+            onDismissRequest = { },
+            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+        ) {
+            Surface(
+                modifier = Modifier.size(100.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = Color.White
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(color = AccentGold)
+                    Spacer(Modifier.height(8.dp))
+                    Text("Espera...", fontSize = 12.sp)
+                }
+            }
+        }
+    }
+
 
     LaunchedEffect(storeId) {
         viewModel.setStoreId(storeId)
